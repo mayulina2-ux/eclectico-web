@@ -58,8 +58,10 @@ nav .btn{padding:10px 18px;font-size:14px}
 .hero .scroll{position:absolute;z-index:1;left:50%;bottom:22px;transform:translateX(-50%);color:#e6dccb;font-size:12px;letter-spacing:.3em;text-transform:uppercase;text-decoration:none;animation:bob 2.4s ease-in-out infinite}
 @keyframes bob{50%{transform:translate(-50%,6px)}}
 @media (prefers-reduced-motion:reduce){.hero .bg,.hero .scroll,.hero:before{animation:none}}
-.music{position:fixed;right:22px;bottom:22px;z-index:30;display:none;align-items:center;gap:10px;background:rgba(31,35,29,.88);backdrop-filter:blur(8px);color:var(--linen);border:1px solid rgba(217,188,127,.5);border-radius:999px;padding:10px 16px 10px 12px;font-family:inherit;font-size:13px;letter-spacing:.06em;cursor:pointer;box-shadow:0 10px 30px rgba(0,0,0,.25);transition:.2s}
-.music.ready{display:inline-flex}
+.music{position:fixed;right:22px;bottom:22px;z-index:30;display:inline-flex;align-items:center;gap:10px;background:rgba(31,35,29,.88);backdrop-filter:blur(8px);color:var(--linen);border:1px solid rgba(217,188,127,.5);border-radius:999px;padding:10px 16px 10px 12px;font-family:inherit;font-size:13px;letter-spacing:.06em;cursor:pointer;box-shadow:0 10px 30px rgba(0,0,0,.25);transition:.2s}
+.music.hide{display:none}
+.btn.musicHero{background:rgba(31,35,29,.55);border-color:rgba(217,188,127,.7);color:#fff;backdrop-filter:blur(6px)}
+.btn.musicHero:hover{background:var(--gold);color:var(--night)}
 .music:hover{border-color:var(--gold-l);color:var(--gold-l)}
 .music .eq{display:inline-flex;gap:2px;align-items:flex-end;height:14px}
 .music .eq i{width:3px;height:4px;background:var(--gold-l);border-radius:2px}
@@ -282,6 +284,7 @@ footer .bottom{grid-column:1/-1;border-top:1px solid #3b4236;padding-top:20px;ma
       <p>Piezas con historia y diseño de hoy, elegidas a mano para convivir en tu casa.</p>
       <div class="ctas">
         <a class="btn gold" href="/probador/">✨ Pruébalo en tu casa</a>
+        <button class="btn musicHero" type="button" id="heroMusic">♪ Escuchar la música</button>
       </div>
     </div>
   </div>
@@ -544,9 +547,12 @@ let userPaused=false;
 song.volume=0.55;
 function paint(){const on=!song.paused;mBtn.classList.toggle('on',on);mBtn.setAttribute('aria-pressed',on);mTxt.textContent=on?'Silenciar música':'Activar música';}
 function tryPlay(){if(userPaused)return;song.play().then(paint).catch(paint);}
-let songReady=false;
-function onSongReady(){if(songReady)return;songReady=true;mBtn.classList.add('ready');}
-if(song.readyState>=2)onSongReady();else{song.addEventListener('canplay',onSongReady,{once:true});song.addEventListener('loadeddata',onSongReady,{once:true});}
+// El botón se ve siempre (en el móvil la canción no se carga hasta que se toca algo).
+song.addEventListener('error',()=>{mBtn.classList.add('hide');const hb=document.getElementById('heroMusic');if(hb)hb.style.display='none';});
+const heroBtn=document.getElementById('heroMusic');
+const paintHero=()=>{if(heroBtn)heroBtn.innerHTML=song.paused?'♪ Escuchar la música':'❚❚ Pausar la música';};
+song.addEventListener('play',paintHero);song.addEventListener('pause',paintHero);
+if(heroBtn)heroBtn.addEventListener('click',()=>{if(song.paused){userPaused=false;song.play().catch(()=>{});}else{userPaused=true;song.pause();}});
 song.addEventListener('play',paint);song.addEventListener('pause',paint);
 mBtn.addEventListener('click',e=>{e.stopPropagation();if(song.paused){userPaused=false;song.play().catch(()=>{});}else{userPaused=true;song.pause();}});
 
