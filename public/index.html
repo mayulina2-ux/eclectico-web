@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ecléctico · Muebles, decoración y antigüedades en Elda</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+<meta name="description" content="Ecléctico: tienda de muebles, decoración y antigüedades en Elda (Alicante). Piezas con historia y diseño de hoy. Pruébalas en tu casa con nuestro probador con IA.">
+<meta property="og:title" content="Ecléctico · Espacios con personalidad">
+<meta property="og:description" content="Muebles, decoración y antigüedades en la calle Reina Victoria 18 de Elda.">
+<meta name="theme-color" content="#1f231d">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Crect width=%27100%27 height=%27100%27 rx=%2722%27 fill=%27%231f231d%27/%3E%3Ccircle cx=%2750%27 cy=%2750%27 r=%2738%27 fill=%27none%27 stroke=%27%23d9bc7f%27 stroke-width=%274%27/%3E%3Ctext x=%2750%27 y=%2766%27 text-anchor=%27middle%27 font-family=%27Georgia,serif%27 font-size=%2746%27 fill=%27%23d9bc7f%27%3EE%3C/text%3E%3C/svg%3E">
+<style>
+:root{--serif:"Playfair Display",Georgia,serif;--display:"Cormorant Garamond",Georgia,serif;--night:#1f231d;--night2:#2a3027;--gold:#b8924a;--gold-l:#d9bc7f;--linen:#f5f0e7;--paper:#ebe1cf;--sand:#ded0b6;--card:#f5eee1;--ink:#1d1b18;--muted:#675e52;--line:#d3c3a6;--velvet:#2f4a3a;--terra:#b5643c}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Jost,system-ui,sans-serif;color:var(--ink);background:var(--paper);font-weight:400;font-size:16.5px;line-height:1.65;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+h1,h2,h3{font-family:var(--serif);font-weight:500;margin:0;line-height:1.1;letter-spacing:-.01em}
+h2 em{font-style:italic;color:var(--gold)}
+.wrap{max-width:1200px;margin:0 auto;padding:0 28px}
+.kicker{font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:14px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 24px;border-radius:999px;font-family:inherit;font-size:15px;font-weight:500;text-decoration:none;border:1px solid transparent;cursor:pointer;transition:.2s}
+.btn.gold{background:var(--gold);color:#fff}.btn.gold:hover{background:#a5823f}
+.btn.ghost{border-color:#5b6354;color:var(--linen)}.btn.ghost:hover{border-color:var(--gold-l);color:var(--gold-l)}
+.btn.dark{background:var(--night);color:var(--linen)}.btn.dark:hover{background:var(--night2)}
+
+/* nav */
+nav{position:fixed;top:0;left:0;right:0;z-index:20;background:linear-gradient(rgba(15,15,13,.5),rgba(15,15,13,0));border-bottom:1px solid transparent;transition:background .35s,border-color .35s}
+nav.solid,nav.open{background:rgba(31,35,29,.96);backdrop-filter:blur(8px);border-bottom-color:#3b4236}
+section{scroll-margin-top:72px}
+nav .wrap{display:flex;align-items:center;height:72px;gap:28px}
+.logo{display:flex;align-items:center;gap:12px;text-decoration:none}
+.logo svg{width:50px;height:50px}
+.logo span{font-family:var(--display);font-weight:600;font-size:27px;letter-spacing:.2em;color:var(--gold-l)}
+nav ul{list-style:none;display:flex;gap:26px;margin:0 0 0 auto;padding:0}
+nav ul a{color:#d8d0c0;text-decoration:none;font-size:14px;letter-spacing:.06em}
+nav ul a:hover{color:var(--gold-l)}
+nav .btn{padding:10px 18px;font-size:14px}
+.burger{display:none;margin-left:auto;background:none;border:1px solid #4a5244;color:var(--linen);border-radius:8px;padding:8px 12px;font-size:18px}
+
+/* hero */
+.hero{position:relative;min-height:100vh;min-height:100svh;overflow:hidden;color:#fff;display:flex;align-items:center;background:var(--night)}
+.hero .bg{position:absolute;inset:-4%;background:url(img/hero.jpg?v=3) 50% 50%/cover no-repeat;animation:kb 22s ease-in-out infinite;will-change:transform}
+@keyframes kb{0%{transform:scale(1.04) translate(2.5%,1%)}33%{transform:scale(1.16) translate(-2%,-1.5%)}66%{transform:scale(1.10) translate(-3.5%,1.5%)}100%{transform:scale(1.04) translate(2.5%,1%)}}
+.hero:before{content:"";position:absolute;z-index:0;width:70vmax;height:70vmax;left:-10vmax;top:-20vmax;border-radius:50%;background:radial-gradient(circle,rgba(255,214,150,.22) 0%,rgba(255,214,150,0) 60%);mix-blend-mode:screen;animation:glow 14s ease-in-out infinite;pointer-events:none}
+@keyframes glow{0%,100%{transform:translate(0,0);opacity:.7}50%{transform:translate(55vw,18vh);opacity:1}}
+.hero:after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 58% 52% at 50% 50%,rgba(16,16,13,.55) 0%,rgba(16,16,13,.28) 65%,rgba(16,16,13,.1) 100%),linear-gradient(180deg,rgba(16,16,13,.38) 0%,rgba(16,16,13,0) 22%,rgba(16,16,13,0) 70%,rgba(16,16,13,.4) 100%)}
+.hero .wrap{position:relative;z-index:1;width:100%;padding-top:110px;padding-bottom:90px;text-align:center}
+.hero .wrap>div{display:flex;flex-direction:column;align-items:center}
+.brandmark{display:flex;flex-direction:column;align-items:center;gap:18px;margin:10px 0 24px}
+.brandmark svg{width:clamp(84px,9vw,124px);height:auto;filter:drop-shadow(0 4px 18px rgba(0,0,0,.45))}
+.brandmark .name{font-family:var(--display);font-weight:600;font-size:clamp(46px,10.5vw,156px);letter-spacing:.16em;margin-right:-.16em;line-height:1;color:var(--gold-l);text-shadow:0 2px 24px rgba(0,0,0,.45),0 0 2px rgba(0,0,0,.25)}
+.brandmark .rule{width:120px;height:1px;background:var(--gold-l);opacity:.8}
+.hero h1{font-size:clamp(30px,3.6vw,52px);color:#fff;font-style:italic;text-shadow:0 2px 20px rgba(0,0,0,.5)}
+.hero .kicker{color:#f1dcae;text-shadow:0 1px 3px rgba(0,0,0,.7),0 0 14px rgba(0,0,0,.5);font-weight:500}
+.hero .scroll{position:absolute;z-index:1;left:50%;bottom:22px;transform:translateX(-50%);color:#e6dccb;font-size:12px;letter-spacing:.3em;text-transform:uppercase;text-decoration:none;animation:bob 2.4s ease-in-out infinite}
+@keyframes bob{50%{transform:translate(-50%,6px)}}
+@media (prefers-reduced-motion:reduce){.hero .bg,.hero .scroll,.hero:before{animation:none}}
+.music{position:fixed;right:22px;bottom:22px;z-index:30;display:none;align-items:center;gap:10px;background:rgba(31,35,29,.88);backdrop-filter:blur(8px);color:var(--linen);border:1px solid rgba(217,188,127,.5);border-radius:999px;padding:10px 16px 10px 12px;font-family:inherit;font-size:13px;letter-spacing:.06em;cursor:pointer;box-shadow:0 10px 30px rgba(0,0,0,.25);transition:.2s}
+.music.ready{display:inline-flex}
+.music:hover{border-color:var(--gold-l);color:var(--gold-l)}
+.music .eq{display:inline-flex;gap:2px;align-items:flex-end;height:14px}
+.music .eq i{width:3px;height:4px;background:var(--gold-l);border-radius:2px}
+.music.on .eq i{animation:eq .9s ease-in-out infinite}
+.music.on .eq i:nth-child(2){animation-delay:.2s}.music.on .eq i:nth-child(3){animation-delay:.4s}.music.on .eq i:nth-child(4){animation-delay:.1s}
+@keyframes eq{0%,100%{height:4px}50%{height:14px}}
+.hero h1 em{color:var(--gold-l)}
+.hero p{font-size:19px;color:#f3ecdf;max-width:700px;margin:20px auto 32px;text-shadow:0 1px 14px rgba(0,0,0,.6)}
+.hero .ctas{display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
+.hero .badges{display:flex;gap:44px;margin-top:40px;font-size:13px;color:#e2d8c6;letter-spacing:.06em;flex-wrap:wrap;justify-content:center;text-shadow:0 1px 10px rgba(0,0,0,.6)}
+.hero .badges b{display:block;font-family:var(--serif);font-size:30px;color:var(--gold-l);font-weight:500;letter-spacing:0}
+.ph{width:100%;height:100%;object-fit:cover;display:block}
+
+/* about */
+section{padding:96px 0}
+.about .wrap{display:grid;grid-template-columns:1fr 1.1fr;gap:72px;align-items:center}
+.about h2,.sec-h h2{font-size:clamp(36px,4.4vw,56px);color:var(--night)}
+.about p{font-size:17px;color:#4a453d}
+.quote{font-family:var(--serif);font-style:italic;font-size:30px;line-height:1.25;color:var(--night);border-left:3px solid var(--gold);padding-left:22px;margin:28px 0}
+.values{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.value{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px}
+.value .n{font-family:var(--serif);font-size:36px;color:var(--gold);line-height:1}
+.value h3{font-size:22px;font-weight:500;margin:8px 0 6px;color:var(--night)}
+.value p{font-size:15px;margin:0;color:var(--muted)}
+
+/* nuestra tienda */
+.store{background:var(--night);color:var(--linen)}
+.store .sec-h h2{color:#fff}
+.store .sec-h p{color:#cfc6b4}
+.store-grid{display:grid;grid-template-columns:1.15fr 1fr;grid-template-rows:1fr 1fr;gap:16px;height:640px}
+.store-grid figure{margin:0;position:relative;border-radius:18px;overflow:hidden;cursor:zoom-in}
+.store-grid figure.main{grid-row:span 2}
+.store-grid img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s ease}
+.store-grid figure:hover img{transform:scale(1.04)}
+.store-grid figcaption{position:absolute;left:0;right:0;bottom:0;padding:40px 22px 18px;background:linear-gradient(transparent,rgba(0,0,0,.7));font-family:var(--serif);font-size:24px;color:#fff}
+.store-grid figcaption small{display:block;font-family:Jost,sans-serif;font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold-l);margin-bottom:4px}
+.store-info{display:flex;flex-wrap:wrap;gap:22px 48px;align-items:center;margin-top:30px;padding-top:26px;border-top:1px solid #3b4236;font-size:15px;color:#d8d0c0}
+.store-info b{display:block;font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold-l);font-weight:500;margin-bottom:4px}
+.store-info .btn{margin-left:auto}
+
+/* vídeos */
+.vid-wrap{position:relative;border-radius:18px;overflow:hidden;background:#000;aspect-ratio:16/9;box-shadow:0 30px 60px rgba(0,0,0,.3)}
+.vid-wrap video{width:100%;height:100%;object-fit:cover;display:block}
+.vid-tag{position:absolute;left:16px;top:14px;background:rgba(31,35,29,.8);color:var(--linen);font-size:11px;letter-spacing:.22em;text-transform:uppercase;padding:7px 12px;border-radius:999px}
+.vid-btn{position:absolute;right:14px;bottom:14px;width:42px;height:42px;border-radius:50%;border:1px solid rgba(217,188,127,.6);background:rgba(31,35,29,.75);color:var(--gold-l);font-size:14px;cursor:pointer;display:grid;place-items:center;transition:.2s}
+.vid-btn:hover{background:var(--gold);color:var(--night)}
+.vid-wrap.clickable{cursor:pointer}
+.vid-play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:inline-flex;align-items:center;gap:10px;background:rgba(31,35,29,.78);backdrop-filter:blur(6px);color:#fff;border:1px solid rgba(217,188,127,.7);border-radius:999px;padding:12px 20px 12px 14px;font-family:inherit;font-size:14px;letter-spacing:.04em;cursor:pointer;transition:.25s}
+.vid-play span{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--gold);color:var(--night);font-size:12px;padding-left:2px}
+.vid-wrap.clickable:hover .vid-play{background:var(--gold);color:var(--night);transform:translate(-50%,-50%) scale(1.05)}
+.vid-wrap.clickable:hover .vid-play span{background:var(--night);color:var(--gold-l)}
+.vmodal{position:fixed;inset:0;z-index:110;background:rgba(12,13,10,.94);display:none;align-items:center;justify-content:center;padding:60px 24px}
+.vmodal.open{display:flex}
+.vmodal video{width:min(1200px,100%);max-height:calc(100vh - 120px);border-radius:14px;box-shadow:0 30px 80px rgba(0,0,0,.6);background:#000}
+.vmodal .x{position:absolute;top:18px;right:18px;width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid rgba(217,188,127,.5);color:var(--linen);font-size:20px;cursor:pointer}
+.vmodal .x:hover{background:var(--gold);color:var(--night)}
+.try .vid-wrap{border:10px solid #2a3027}
+
+/* collections */
+.collections{background:var(--sand)}
+.sec-h{display:flex;justify-content:space-between;align-items:end;gap:30px;margin-bottom:40px;flex-wrap:wrap}
+.sec-h p{max-width:440px;color:var(--muted);margin:0}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.card{background:var(--card);border-radius:18px;overflow:hidden;border:1px solid var(--line);display:flex;flex-direction:column;transition:.25s}
+.card:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(31,35,29,.1)}
+.card .img{height:220px;overflow:hidden}
+.card .img img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
+.card:hover .img img{transform:scale(1.05)}
+.card .body{padding:20px 22px 24px}
+.card h3{font-size:24px;font-weight:600;color:var(--night)}
+.card p{font-size:14.5px;color:var(--muted);margin:6px 0 12px}
+.card{text-decoration:none;color:inherit}
+.card .try-link{display:block;margin-top:10px;font-size:13px;font-weight:500;color:var(--night);letter-spacing:.02em;border-top:1px solid var(--line);padding-top:10px}
+.card:hover .try-link{color:var(--gold)}
+.card .from{font-size:13px;color:var(--gold);font-weight:500;letter-spacing:.04em}
+
+/* services */
+.services .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}
+.svc img{height:300px!important}
+.svc{border-top:2px solid var(--gold);padding-top:24px}
+.svc img{width:100%;height:240px;object-fit:cover;border-radius:14px;margin-bottom:18px}
+.svc h3{font-size:28px;font-weight:600;color:var(--night);margin-bottom:8px}
+.svc p{color:var(--muted);margin:0 0 10px;font-size:15.5px}
+.svc .price{font-size:13.5px;color:var(--ink);font-weight:500}
+
+/* probador */
+.try{background:var(--night);color:var(--linen)}
+.try .wrap{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+.try h2{font-size:clamp(36px,4.4vw,56px);color:#fff}
+.try p{color:#d4ccbb;font-size:17px}
+.try ol{list-style:none;padding:0;margin:24px 0 32px;counter-reset:s}
+.try li{counter-increment:s;display:flex;gap:14px;align-items:center;margin-bottom:14px;font-size:16px;color:#e6dfd0}
+.try li:before{content:counter(s);display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--gold);color:var(--night);font-weight:600;font-size:13px;flex:none}
+
+/* gallery */
+.gallery .grid{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:220px;gap:14px}
+.g{border-radius:16px;overflow:hidden;position:relative;display:grid;place-items:center}
+.g img{max-width:none;max-height:none}
+.g:after{content:"";position:absolute;inset:0;background:linear-gradient(transparent 50%,rgba(0,0,0,.65))}
+.g span{z-index:1}
+.g span{position:absolute;left:16px;bottom:14px;font-size:13px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:#fff;text-shadow:0 1px 8px rgba(0,0,0,.6)}
+.g.big{grid-column:span 2;grid-row:span 2}
+.g.wide{grid-column:span 2}
+.g{cursor:zoom-in}
+.g img{transition:transform .5s}.g:hover img{transform:scale(1.04)}
+.lb{position:fixed;inset:0;z-index:100;background:rgba(15,16,13,.93);display:none;align-items:center;justify-content:center;padding:40px 70px}
+.lb.open{display:flex}
+.lb figure{margin:0;text-align:center;max-width:100%;max-height:100%}
+.lb img{max-width:100%;max-height:calc(100vh - 130px);border-radius:10px;box-shadow:0 30px 80px rgba(0,0,0,.5);display:block;margin:0 auto}
+.lb figcaption{color:var(--gold-l);font-size:13px;letter-spacing:.2em;text-transform:uppercase;margin-top:16px}
+.lb button{position:absolute;background:rgba(255,255,255,.08);border:1px solid rgba(217,188,127,.5);color:var(--linen);width:48px;height:48px;border-radius:50%;font-size:22px;cursor:pointer;display:grid;place-items:center;transition:.2s}
+.lb button:hover{background:var(--gold);color:var(--night)}
+.lb .x{top:20px;right:20px}.lb .prev{left:14px;top:50%;transform:translateY(-50%)}.lb .next{right:14px;top:50%;transform:translateY(-50%)}
+@media (max-width:600px){.lb{padding:70px 12px}.lb .prev,.lb .next{top:auto;bottom:16px;transform:none}.lb .prev{left:calc(50% - 60px)}.lb .next{right:calc(50% - 60px)}}
+
+/* reviews */
+.reviews{background:var(--sand)}
+.revs{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.rev{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:28px}
+.rev .stars{color:var(--gold);letter-spacing:3px;font-size:15px}
+.rev p{font-family:var(--serif);font-size:22px;line-height:1.35;font-style:italic;color:var(--night);margin:12px 0 18px}
+.rev .who{font-size:14px;font-weight:500}
+.rev .who small{display:block;color:var(--muted);font-weight:300}
+.note{font-size:12px;color:var(--muted);margin-top:16px}
+
+/* contact */
+.contact .wrap{display:grid;grid-template-columns:1fr 1.15fr;gap:64px}
+.info h2{font-size:clamp(36px,4.4vw,56px);color:var(--night)}
+.info dl{margin:28px 0 0;display:grid;grid-template-columns:110px 1fr;gap:14px 18px;font-size:15.5px}
+.info dt{color:var(--gold);font-weight:500;font-size:12px;letter-spacing:.2em;text-transform:uppercase;padding-top:4px}
+.info dd{margin:0}
+form{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:32px;display:grid;grid-template-columns:1fr 1fr;gap:16px}
+form .full{grid-column:1/-1}
+label{font-size:13px;font-weight:500;display:block;margin-bottom:6px}
+input,select,textarea{width:100%;font-family:inherit;font-size:15px;padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:#fbf7ef;color:var(--ink)}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--gold-l);border-color:var(--gold)}
+textarea{min-height:110px;resize:vertical}
+.ok{display:none;grid-column:1/-1;background:#f5ecd9;border:1px solid #e4cf9f;border-radius:12px;padding:16px;font-size:14.5px}
+.ok.show{display:block}
+.consent label{display:flex;gap:10px;align-items:flex-start;font-weight:400;font-size:14px;color:var(--muted);cursor:pointer}
+.consent input{width:18px;height:18px;margin:2px 0 0;accent-color:var(--gold);flex:none}
+.consent a{color:var(--ink)}
+.legal{position:fixed;inset:0;z-index:120;background:rgba(12,13,10,.75);display:none;align-items:center;justify-content:center;padding:24px}
+.legal.open{display:flex}
+.legal .box{background:var(--card);border-radius:18px;max-width:640px;width:100%;max-height:86vh;overflow:auto;padding:32px;position:relative}
+.legal h3{font-size:26px;margin-bottom:12px}
+.legal h4{font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin:20px 0 6px}
+.legal p{margin:0 0 8px;font-size:15px;color:#4a453d}
+.legal .x{position:absolute;top:14px;right:14px;width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:#fff;cursor:pointer;font-size:16px}
+.ok.err{background:#f6e1db;border-color:#e3b3a6}
+form button[disabled]{opacity:.6;cursor:wait}
+
+footer{background:var(--night);color:#a9a090;padding:56px 0 34px;font-size:14px}
+footer .wrap{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:40px}
+footer h4{font-family:var(--serif);color:var(--gold-l);font-size:20px;font-weight:500;margin:0 0 12px}
+footer .bottom{grid-column:1/-1;border-top:1px solid #3b4236;padding-top:20px;margin-top:10px;display:flex;justify-content:space-between;font-size:12.5px;flex-wrap:wrap;gap:10px}
+
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .8s ease,transform .8s ease}
+.reveal.in{opacity:1;transform:none}
+
+@media (max-width:960px){
+  nav ul,nav .btn{display:none}
+  .burger{display:block}
+  nav.open ul{display:flex;flex-direction:column;position:absolute;top:72px;left:0;right:0;background:var(--night);padding:18px 28px;gap:16px}
+  .hero .wrap,.about .wrap,.try .wrap,.contact .wrap{grid-template-columns:1fr}
+  .cards{grid-template-columns:1fr 1fr}
+  .services .grid,.revs{grid-template-columns:1fr}
+  .gallery .grid{grid-template-columns:1fr 1fr}
+  .store-grid{grid-template-columns:1fr;grid-template-rows:none;height:auto}
+  .store-grid figure{height:300px}
+  .store-grid figure.main{grid-row:auto;height:420px}
+  .store-info .btn{margin-left:0}
+  footer .wrap{grid-template-columns:1fr}
+  form{grid-template-columns:1fr}
+  section{padding:72px 0}
+}
+@media (max-width:600px){
+  .values{grid-template-columns:1fr}
+  .cards{grid-template-columns:1fr}
+  .brandmark .name{letter-spacing:.1em;margin-right:-.1em}
+  .vid-play .t{display:none}
+  .vid-play{padding:10px}
+  .hero p{font-size:17px}
+  .hero .scroll{display:none}
+  .music{right:14px;bottom:14px}
+}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <div class="wrap">
+    <a class="logo" href="#inicio" aria-label="Ecléctico, inicio">
+      <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="none" stroke="#d9bc7f" stroke-width="2.5"/><circle cx="50" cy="50" r="39" fill="none" stroke="#d9bc7f" stroke-width="1.2"/><text x="50" y="66" text-anchor="middle" font-family="Cormorant Garamond, Georgia, serif" font-size="48" font-weight="600" fill="#d9bc7f">E</text><path d="M71 27 l2.2 5 5 2.2 -5 2.2 -2.2 5 -2.2 -5 -5 -2.2 5 -2.2z" fill="#d9bc7f"/></svg>
+      <span>ECLÉCTICO</span>
+    </a>
+    <ul>
+      <li><a href="#nosotros">Quiénes somos</a></li>
+      <li><a href="#tienda">Nuestra tienda</a></li>
+      <li><a href="#colecciones">Colecciones</a></li>
+      <li><a href="#servicios">Servicios</a></li>
+      <li><a href="#galeria">Galería</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
+    <a class="btn gold" href="/probador/">Probador con IA</a>
+    <button class="burger" id="burger" aria-label="Menú">☰</button>
+  </div>
+</nav>
+
+<header class="hero" id="inicio">
+  <div class="bg" role="img" aria-label="Salón de Ecléctico: sofá claro bajo un gran panel de madera, butaca de buclé, mesa baja de madera maciza y lámparas de mimbre"></div>
+  <div class="wrap">
+    <div>
+      <div class="kicker">Muebles · Decoración · Antigüedades · Elda</div>
+      <div class="brandmark" aria-label="Ecléctico">
+        <div class="name">ECLÉCTICO</div>
+        <div class="rule"></div>
+      </div>
+      <h1>Espacios con <em>personalidad.</em></h1>
+      <p>Piezas con historia y diseño de hoy, elegidas a mano para convivir en tu casa.</p>
+      <div class="ctas">
+        <a class="btn gold" href="/probador/">✨ Pruébalo en tu casa</a>
+      </div>
+    </div>
+  </div>
+  <a class="scroll" href="#nosotros">Descubre ↓</a>
+</header>
+
+<section class="about" id="nosotros">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="kicker">Quiénes somos</div>
+      <h2>Una tienda para casas que cuentan algo.</h2>
+      <p>Ecléctico nace en la calle Reina Victoria de Elda con una idea sencilla: las casas más bonitas no salen de un catálogo, se construyen mezclando. Una cómoda de 1920 junto a un sofá de hoy, un espejo de los años 50 sobre una pared lisa, la cerámica de un artesano al lado de una lámpara de diseño.</p>
+      <p>Elegimos cada pieza con calma y con una sola pregunta en mente: ¿le dará carácter a una casa? Antigüedades con historia, muebles de diseño actual y objetos hechos a mano por artesanos conviven en nuestra tienda como lo harían en tu salón. Y cuando algo te enamore, te ayudamos a encontrarle su sitio.</p>
+      <div class="quote">«No buscamos espacios perfectos, buscamos espacios con alma.»</div>
+      <p style="font-size:14px;color:var(--muted)">Mariola Camacho, fundadora</p>
+      <img src="img/logo-tarjeta.jpg" alt="Logotipo de Ecléctico impreso en una tarjeta de papel artesanal sobre lino" loading="lazy" style="width:100%;border-radius:18px;margin-top:26px;display:block;box-shadow:0 18px 40px rgba(31,35,29,.12)">
+    </div>
+    <div class="reveal" style="display:grid;gap:16px"><img src="img/esencia.jpg" alt="La esencia de Ecléctico: espejo antiguo y tinajas de barro" style="width:100%;height:380px;object-fit:cover;border-radius:18px"><div class="values">
+      <div class="value"><div class="n">01</div><h3>Criterio</h3><p>Cada pieza pasa por nuestras manos. No vendemos de todo: vendemos lo que combina.</p></div>
+      <div class="value"><div class="n">02</div><h3>Segunda vida</h3><p>Dar una nueva casa a piezas con historia es la forma más bonita y sostenible de decorar.</p></div>
+      <div class="value"><div class="n">03</div><h3>Cercanía</h3><p>Te asesoramos de tú a tú, en tienda o en tu casa, sin compromiso.</p></div>
+      <div class="value"><div class="n">04</div><h3>Tecnología útil</h3><p>Nuestro probador con IA te deja ver cada pieza en tu estancia antes de decidir.</p></div>
+    </div></div>
+  </div>
+</section>
+
+<section class="store" id="tienda">
+  <div class="wrap">
+    <div class="sec-h reveal">
+      <div><div class="kicker">Nuestra tienda</div><h2>Una casa abierta en el centro de Elda.</h2></div>
+      <p>Detrás de nuestro escaparate te espera una tienda que se recorre como una casa: ambientes completos donde las antigüedades conviven con piezas de hoy. Pasa, siéntate y tócalo todo.</p>
+    </div>
+    <div class="store-grid reveal" id="storeGrid">
+      <figure class="main" data-i="0"><img src="img/fachada.jpg" alt="Fachada de la tienda Ecléctico en la calle Reina Victoria de Elda" loading="lazy"><figcaption><small>La fachada</small>C/ Reina Victoria 18</figcaption></figure>
+      <figure data-i="1"><img src="img/asesoria.jpg" alt="Interiorista de Ecléctico eligiendo telas y marcos sobre una mesa antigua junto a un espejo dorado" loading="lazy" style="object-position:60% 40%"><figcaption><small>Nuestro estudio</small>Cada proyecto, a mano</figcaption></figure>
+      <figure data-i="2"><img src="img/tienda2.jpg" alt="Interior de la tienda Ecléctico: mostrador, sofás y lámparas" loading="lazy"><figcaption><small>Por dentro</small>Piezas con historia</figcaption></figure>
+    </div>
+    <div class="store-info reveal">
+      <div><b>Dirección</b>C/ Reina Victoria 18 · 03600 Elda (Alicante)</div>
+      <div><b>Horario</b>L–V 10:00–13:30 y 17:00–20:30 · Sáb. 10:00–14:00</div>
+      <a class="btn gold" href="https://www.google.com/maps/search/?api=1&amp;query=Calle%20Reina%20Victoria%2018%2C%20Elda%2C%20Alicante" target="_blank" rel="noopener">📍 Cómo llegar</a>
+    </div>
+  </div>
+</section>
+
+<section class="collections" id="colecciones">
+  <div class="wrap">
+    <div class="sec-h reveal">
+      <div><div class="kicker">Colecciones</div><h2>Lo antiguo y lo nuevo, en la misma casa.</h2></div>
+      <p>Una selección que cambia cada semana. Ven a vernos o pruébala desde casa con el probador.</p>
+    </div>
+    <div class="cards" id="cards"></div>
+  </div>
+</section>
+
+<section class="services" id="servicios">
+  <div class="wrap">
+    <div class="sec-h reveal">
+      <div><div class="kicker">Servicios</div><h2>Más que una tienda.</h2></div>
+      <p>Te acompañamos desde la primera idea hasta que la última pieza está en su sitio.</p>
+    </div>
+    <div class="grid">
+      <div class="svc reveal"><img src="img/asesoramiento.jpg" alt="Muestras de telas, colores y marcos para un proyecto de interiorismo" loading="lazy"><h3>Asesoría de interiorismo</h3><p>Visitamos tu casa, escuchamos cómo vives y te proponemos distribución, paleta y piezas para cada estancia.</p><div class="price">Primera visita desde 60 €, descontables de tu compra</div></div>
+      <div class="svc reveal"><img src="img/tienda1.jpg" alt="Interior de la tienda Ecléctico" loading="lazy"><h3>Proyectos profesionales</h3><p>Alojamientos turísticos, restaurantes, oficinas y estudios con personalidad, con entrega y montaje incluidos.</p><div class="price">Condiciones especiales para empresas</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="try" id="probador">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="kicker">Probador de estancias con IA</div>
+      <h2>Míralo en tu casa antes de comprarlo.</h2>
+      <p>Se acabó el «¿y si no queda bien?». Nuestra herramienta coloca nuestras piezas sobre una foto de tu estancia, a escala real, y te sugiere qué le va a tu espacio.</p>
+      <ol>
+        <li>Sube una foto de tu salón, dormitorio o entrada</li>
+        <li>Elige piezas de nuestro catálogo</li>
+        <li>La IA las coloca y te da consejos de interiorista</li>
+        <li>Pide tu presupuesto con un clic</li>
+      </ol>
+      <a class="btn gold" href="/probador/">✨ Abrir el probador</a>
+    </div>
+    <div class="reveal">
+      <div class="vid-wrap clickable" id="tryVid">
+        <video src="video/probador.mp4?v=2" poster="video/probador.jpg" muted loop playsinline preload="metadata" aria-label="Vídeo: una clienta prueba muebles en su salón con el probador de Ecléctico en una tablet"></video>
+        <span class="vid-tag">Así funciona</span>
+        <button class="vid-play" type="button" id="openVid" aria-label="Ver el vídeo con sonido"><span>▶</span><i class="t" style="font-style:normal">Ver con sonido</i></button>
+        <button class="vid-btn" type="button" aria-label="Pausar vídeo">❚❚</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="gallery" id="galeria">
+  <div class="wrap">
+    <div class="sec-h reveal">
+      <div><div class="kicker">Galería</div><h2>Rincones con alma.</h2></div>
+      <p>Algunas de las combinaciones que preparamos en tienda.</p>
+    </div>
+    <div class="grid" id="gal"></div>
+  </div>
+</section>
+
+<section class="reviews">
+  <div class="wrap">
+    <div class="sec-h reveal">
+      <div><div class="kicker">Opiniones</div><h2>Lo que dicen de nosotros.</h2></div>
+    </div>
+    <div class="revs">
+      <div class="rev reveal"><div class="stars">★★★★★</div><p>«Subí una foto de mi salón, probé tres butacas y acerté a la primera. Además me ayudaron a combinarla con el aparador de mi abuela.»</p><div class="who">Cliente de Elda<small>Probador con IA y asesoría</small></div></div>
+      <div class="rev reveal"><div class="stars">★★★★★</div><p>«Nos ayudaron a amueblar dos apartamentos turísticos con piezas únicas. Los huéspedes no paran de hacer fotos.»</p><div class="who">Cliente profesional<small>Proyecto de interiorismo</small></div></div>
+      <div class="rev reveal"><div class="stars">★★★★★</div><p>«Es la tienda a la que vas a por una lámpara y sales con ideas para toda la casa. Trato cercanísimo.»</p><div class="who">Cliente de Petrer<small>Decoración</small></div></div>
+    </div>
+    <p class="note">Opiniones de ejemplo para el proyecto: se sustituirán por reseñas reales de clientes tras la apertura.</p>
+  </div>
+</section>
+
+<section class="contact" id="contacto">
+  <div class="wrap">
+    <div class="info reveal">
+      <div class="kicker">Contacto</div>
+      <h2>Ven a vernos o cuéntanos tu proyecto.</h2>
+      <dl>
+        <dt>Tienda</dt><dd>C/ Reina Victoria 18<br>03600 Elda (Alicante)</dd>
+        <dt>Horario</dt><dd>Lunes a viernes 10:00–13:30 y 17:00–20:30<br>Sábados 10:00–14:00</dd>
+        <dt>Email</dt><dd><a href="mailto:mayulina2@gmail.com">mayulina2@gmail.com</a></dd>
+        <dt>Redes</dt><dd><a href="https://www.instagram.com/eclectico.elda/" target="_blank" rel="noopener">@eclectico.elda</a> en Instagram</dd>
+      </dl>
+    </div>
+    <form id="form" class="reveal">
+      <div><label for="f1">Nombre</label><input id="f1" required></div>
+      <div><label for="f2">Email</label><input id="f2" type="email" required></div>
+      <div><label for="f3">Teléfono</label><input id="f3" type="tel"></div>
+      <div><label for="f4">Me interesa</label>
+        <select id="f4"><option>Una pieza concreta</option><option>Asesoría de interiorismo</option><option>Proyecto profesional</option></select></div>
+      <div class="full"><label for="f5">Cuéntanos</label><textarea id="f5" placeholder="Qué estancia quieres cambiar, qué piezas te han gustado, medidas…"></textarea></div>
+      <div class="full consent"><label><input type="checkbox" id="f6" required><span>He leído y acepto la <a href="#" class="open-legal">política de privacidad</a>.</span></label></div>
+      <div class="full"><button class="btn dark" type="submit" id="sendBtn">Enviar solicitud</button></div>
+      <div class="ok" id="ok"></div>
+    </form>
+  </div>
+</section>
+
+<audio id="song" src="audio/cancion.mp3?v=2" loop preload="auto"></audio>
+<button class="music" id="musicBtn" type="button" aria-pressed="false"><span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span id="musicTxt">Activar música</span></button>
+
+<div class="legal" id="legal" role="dialog" aria-modal="true" aria-label="Aviso legal y política de privacidad">
+  <div class="box">
+    <button class="x" type="button" aria-label="Cerrar">✕</button>
+    <h3>Aviso legal y privacidad</h3>
+    <h4>Quién es el responsable</h4>
+    <p>Ecléctico (Mariola Camacho) · C/ Reina Victoria 18, 03600 Elda (Alicante) · mayulina2@gmail.com</p>
+    <h4>Para qué usamos tus datos</h4>
+    <p>Solo para responder a tu solicitud y, si lo pides, prepararte un presupuesto. No enviamos publicidad ni cedemos tus datos a terceros.</p>
+    <h4>Dónde se guardan y cuánto tiempo</h4>
+    <p>En nuestra hoja de clientes de Google, el tiempo necesario para atenderte o mientras haya una relación comercial.</p>
+    <h4>Tus derechos</h4>
+    <p>Puedes pedir ver, corregir o borrar tus datos cuando quieras escribiendo a mayulina2@gmail.com. También puedes reclamar ante la Agencia Española de Protección de Datos (aepd.es).</p>
+  </div>
+</div>
+
+<div class="vmodal" id="vmodal" role="dialog" aria-modal="true" aria-label="Vídeo del probador de estancias">
+  <button class="x" type="button" aria-label="Cerrar vídeo">✕</button>
+  <video id="vmVideo" controls playsinline preload="none"></video>
+</div>
+
+<div class="lb" id="lb" aria-modal="true" role="dialog">
+  <button class="x" aria-label="Cerrar">✕</button>
+  <button class="prev" aria-label="Foto anterior">‹</button>
+  <figure><img id="lbImg" src="" alt=""><figcaption id="lbCap"></figcaption></figure>
+  <button class="next" aria-label="Foto siguiente">›</button>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <div class="logo" style="margin-bottom:14px"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="none" stroke="#d9bc7f" stroke-width="2.5"/><circle cx="50" cy="50" r="39" fill="none" stroke="#d9bc7f" stroke-width="1.2"/><text x="50" y="66" text-anchor="middle" font-family="Cormorant Garamond, Georgia, serif" font-size="48" font-weight="600" fill="#d9bc7f">E</text><path d="M71 27 l2.2 5 5 2.2 -5 2.2 -2.2 5 -2.2 -5 -5 -2.2 5 -2.2z" fill="#d9bc7f"/></svg><span>ECLÉCTICO</span></div>
+      <p style="max-width:340px;margin:0">Muebles, decoración y antigüedades. Piezas con historia y diseño de hoy en el centro de Elda.</p>
+    </div>
+    <div><h4>Explora</h4><a href="#colecciones">Colecciones</a><br><a href="#servicios">Servicios</a><br><a href="/probador/">Probador con IA</a><br><a href="#contacto">Contacto</a></div>
+    <div><h4>Visítanos</h4>C/ Reina Victoria 18<br>Elda (Alicante)<br>mayulina2@gmail.com<br><a href="https://www.instagram.com/eclectico.elda/" target="_blank" rel="noopener">Instagram · @eclectico.elda</a></div>
+    <div class="bottom"><span>© 2026 Ecléctico · Espacios con personalidad · <a href="#" class="open-legal">Aviso legal y privacidad</a></span><span>Proyecto final · Curso de Inteligencia Artificial</span></div>
+  </div>
+</footer>
+
+<script>
+
+
+
+// Colecciones
+const COLS = [
+  {t:'Antigüedades', d:'Cómodas, espejos dorados y tinajas con siglos de historia.', img:'antiguedades', from:'desde 120 €'},
+  {t:'Salones', d:'Sofás y butacas en lino, bouclé y piel para vivir sin prisa.', img:'sofa', from:'desde 340 €'},
+  {t:'Comedores', d:'Mesas de madera maciza y sillas tapizadas para reunirse.', img:'comedor', from:'desde 290 €'},
+  {t:'Decoración', d:'Cerámica, velas, libros, latón y verde natural.', img:'bodegon', from:'desde 25 €'},
+];
+document.getElementById('cards').innerHTML = COLS.map(c=>`<a class="card reveal" href="/probador/"><div class="img"><img src="img/${c.img}.jpg" alt="${c.t}" loading="lazy"></div><div class="body"><h3>${c.t}</h3><p>${c.d}</p><div class="from">${c.from}<span class="try-link">Pruébalo en tu casa →</span></div></div></a>`).join('');
+
+// Vídeos: se reproducen solos (sin sonido) cuando se ven en pantalla
+document.querySelectorAll('.vid-wrap').forEach(w=>{
+  const v=w.querySelector('video'), b=w.querySelector('.vid-btn');let userPaused=false;
+  const paint=()=>{b.textContent=v.paused?'▶':'❚❚';b.setAttribute('aria-label',v.paused?'Reproducir vídeo':'Pausar vídeo');};
+  v.addEventListener('play',paint);v.addEventListener('pause',paint);
+  b.addEventListener('click',()=>{if(v.paused){userPaused=false;v.play().catch(()=>{});}else{userPaused=true;v.pause();}});
+  b.addEventListener('click',e=>e.stopPropagation());
+  new IntersectionObserver(es=>es.forEach(x=>{if(x.isIntersecting){if(!userPaused&&!window.__vmOpen)v.play().catch(()=>{});}else v.pause();}),{threshold:.35}).observe(w);
+});
+
+// Vídeo del probador en grande con su música original (la música de la web se pausa)
+(()=>{
+  const wrap=document.getElementById('tryVid'), prev=wrap.querySelector('video');
+  const vm=document.getElementById('vmodal'), vv=document.getElementById('vmVideo'), songEl=document.getElementById('song');
+  let musicWas=false;
+  function openV(){
+    window.__vmOpen=true;musicWas=!songEl.paused;songEl.pause();prev.pause();
+    if(!vv.src)vv.src='video/probador.mp4?v=2';
+    vv.currentTime=0;vv.muted=false;vv.volume=1;
+    vm.classList.add('open');document.body.style.overflow='hidden';
+    vv.play().catch(()=>{});
+  }
+  function closeV(){
+    vv.pause();vm.classList.remove('open');document.body.style.overflow='';window.__vmOpen=false;
+    prev.play().catch(()=>{});
+    if(musicWas)songEl.play().catch(()=>{});
+  }
+  wrap.addEventListener('click',openV);
+  vm.querySelector('.x').addEventListener('click',closeV);
+  vm.addEventListener('click',e=>{if(e.target===vm)closeV();});
+  vv.addEventListener('ended',closeV);
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&vm.classList.contains('open'))closeV();});
+})();
+
+// Galería
+const GAL = [
+  {img:'g-detalle', c:'big', t:'Tinajas y espejo dorado'},
+  {img:'g-mesa', c:'', t:'Mesa para reunirse'},
+  {img:'g-chester', c:'', t:'Chester y madera vieja'},
+  {img:'g-noche', c:'', t:'Noche en Reina Victoria'},
+  {img:'g-rincon', c:'', t:'Mantas y lino'},
+];
+document.getElementById('gal').innerHTML = GAL.map((g,i)=>`<div class="g ${g.c} reveal" data-i="${i}" role="button" tabindex="0" aria-label="Ampliar foto: ${g.t}"><img class="ph" src="img/${g.img}.jpg" alt="${g.t}"><span>${g.t}</span></div>`).join('');
+
+// Visor de fotos ampliadas
+const lb=document.getElementById('lb'), lbImg=document.getElementById('lbImg'), lbCap=document.getElementById('lbCap');
+let cur=0, lbList=GAL;
+const STORE=[{img:'fachada',t:'La fachada · C/ Reina Victoria 18'},{img:'asesoria',t:'Nuestro estudio · Cada proyecto, a mano'},{img:'tienda2',t:'Nuestra tienda por dentro'}];
+function showLb(i,list){if(list)lbList=list;cur=(i+lbList.length)%lbList.length;lbImg.src=`img/${lbList[cur].img}.jpg`;lbImg.alt=lbList[cur].t;lbCap.textContent=lbList[cur].t+'  ·  '+(cur+1)+' / '+lbList.length;lb.classList.add('open');document.body.style.overflow='hidden';}
+document.querySelectorAll('#storeGrid figure').forEach(f=>f.addEventListener('click',()=>showLb(+f.dataset.i,STORE)));
+function closeLb(){lb.classList.remove('open');document.body.style.overflow='';}
+document.querySelectorAll('#gal .g').forEach(el=>{el.addEventListener('click',()=>showLb(+el.dataset.i,GAL));el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();showLb(+el.dataset.i,GAL);}});});
+lb.querySelector('.x').onclick=closeLb;
+lb.querySelector('.prev').onclick=e=>{e.stopPropagation();showLb(cur-1);};
+lb.querySelector('.next').onclick=e=>{e.stopPropagation();showLb(cur+1);};
+lb.addEventListener('click',e=>{if(e.target===lb)closeLb();});
+document.addEventListener('keydown',e=>{if(!lb.classList.contains('open'))return;if(e.key==='Escape')closeLb();if(e.key==='ArrowLeft')showLb(cur-1);if(e.key==='ArrowRight')showLb(cur+1);});
+
+// Música de fondo (la canción del anuncio de apertura)
+const song=document.getElementById('song'), mBtn=document.getElementById('musicBtn'), mTxt=document.getElementById('musicTxt');
+let userPaused=false;
+song.volume=0.55;
+function paint(){const on=!song.paused;mBtn.classList.toggle('on',on);mBtn.setAttribute('aria-pressed',on);mTxt.textContent=on?'Silenciar música':'Activar música';}
+function tryPlay(){if(userPaused)return;song.play().then(paint).catch(paint);}
+let songReady=false;
+function onSongReady(){if(songReady)return;songReady=true;mBtn.classList.add('ready');}
+if(song.readyState>=2)onSongReady();else{song.addEventListener('canplay',onSongReady,{once:true});song.addEventListener('loadeddata',onSongReady,{once:true});}
+song.addEventListener('play',paint);song.addEventListener('pause',paint);
+mBtn.addEventListener('click',e=>{e.stopPropagation();if(song.paused){userPaused=false;song.play().catch(()=>{});}else{userPaused=true;song.pause();}});
+
+// Aviso legal y privacidad
+(()=>{const lg=document.getElementById('legal');
+  document.querySelectorAll('.open-legal').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();lg.classList.add('open');}));
+  lg.querySelector('.x').addEventListener('click',()=>lg.classList.remove('open'));
+  lg.addEventListener('click',e=>{if(e.target===lg)lg.classList.remove('open');});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')lg.classList.remove('open');});})();
+
+// Menú transparente sobre la portada, sólido al bajar
+const navEl=document.getElementById('nav');
+const onScroll=()=>navEl.classList.toggle('solid',window.scrollY>window.innerHeight*0.6);
+window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+// Menú móvil
+document.getElementById('burger').addEventListener('click',()=>document.getElementById('nav').classList.toggle('open'));
+document.querySelectorAll('nav ul a').forEach(a=>a.addEventListener('click',()=>document.getElementById('nav').classList.remove('open')));
+
+// Formulario de contacto: lo recibe el servidor (/api/contacto), que lo pasa a la
+// automatización de Make: guarda la solicitud en la hoja «FORMULARIO DE CONTACTO»
+// y manda el correo de confirmación al cliente.
+const TIENDA_EMAIL='mayulina2@gmail.com';
+const escH=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+document.getElementById('form').addEventListener('submit',async e=>{
+  e.preventDefault();
+  const ok=document.getElementById('ok'), btn=document.getElementById('sendBtn');
+  const v=id=>document.getElementById(id).value.trim();
+  const d={nombre:v('f1'),email:v('f2'),telefono:v('f3'),interes:v('f4'),mensaje:v('f5'),privacidad:document.getElementById('f6').checked};
+  const nom=d.nombre.split(' ')[0]||'';
+  ok.classList.remove('err');
+  btn.disabled=true;btn.textContent='Enviando…';
+  const done=(html,isErr)=>{ok.innerHTML=html;ok.classList.toggle('err',!!isErr);ok.classList.add('show');btn.disabled=false;btn.textContent='Enviar solicitud';};
+  try{
+    const r=await fetch('/api/contacto',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)});
+    const j=await r.json().catch(()=>({}));
+    if(!r.ok) throw new Error(j.error||'error');
+    done(`<b>¡Gracias, ${escH(nom)}!</b> Hemos recibido tu solicitud y te hemos enviado un correo de confirmación a <b>${escH(d.email)}</b>. Te responderemos en menos de 24 horas.`);
+    document.getElementById('form').reset();
+  }catch(err){
+    done(`<b>No hemos podido enviar tu solicitud.</b> ${escH(err.message&&err.message!=='error'?err.message:'Inténtalo de nuevo en un momento')} o escríbenos a <b>${TIENDA_EMAIL}</b>.`,true);
+  }
+});
+
+// Animación al hacer scroll
+const io=new IntersectionObserver(es=>es.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target);}}),{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

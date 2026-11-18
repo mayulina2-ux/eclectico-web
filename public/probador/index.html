@@ -1,0 +1,1266 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ecléctico · Probador de estancias</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --night:#1f231d; --night2:#2a3027; --ink:#1d1b18; --gold:#b8924a; --gold-l:#d9bc7f;
+  --cream:#f5f0e7; --paper:#fbf8f2; --line:#e3dacb; --muted:#7a7166; --green:#2f4a3a; --terra:#b5643c;
+  --wa:#1f8f4e; --r:14px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--paper);color:var(--ink);font-family:Jost,system-ui,sans-serif;font-weight:400}
+button{font-family:inherit;cursor:pointer}
+.serif{font-family:"Cormorant Garamond",Georgia,serif}
+a{color:inherit}
+
+/* Cabecera */
+header{background:var(--night);color:var(--cream);border-bottom:3px solid var(--gold)}
+.bar{max-width:1320px;margin:0 auto;padding:14px 22px;display:flex;align-items:center;gap:14px}
+.brand{display:flex;align-items:center;gap:12px}
+.brand svg{width:46px;height:46px;flex:none}
+.brand .name{font-family:"Cormorant Garamond",serif;font-size:26px;letter-spacing:.32em;color:var(--gold-l);font-weight:600}
+.brand .tag{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#cfc6b4;margin-top:-2px}
+.bar .spacer{flex:1}
+.back{display:inline-flex;align-items:center;gap:6px;border:1px solid #5b6354;color:var(--cream);text-decoration:none;border-radius:999px;padding:8px 16px;font-size:14px;font-weight:500;transition:.15s;flex:none}
+.back:hover{border-color:var(--gold-l);color:var(--gold-l)}
+.bar .where{font-size:12px;color:#bdb4a2;text-align:right;line-height:1.4}
+.bar .where a{color:var(--gold-l);text-decoration:none}
+.hero{max-width:1320px;margin:0 auto;padding:26px 22px 30px;display:grid;grid-template-columns:1.3fr 1fr;gap:30px;align-items:end}
+.hero h1{font-family:"Cormorant Garamond",serif;font-weight:500;font-size:clamp(30px,4vw,48px);line-height:1.05;margin:0;color:#fff}
+.hero h1 em{color:var(--gold-l)}
+.hero p{margin:10px 0 0;color:#d8d0c0;font-weight:300;max-width:560px;line-height:1.55}
+.steps{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+.step{border:1px solid #4a5244;border-radius:999px;padding:8px 14px;font-size:13px;color:#e6dfd0;display:flex;gap:8px;align-items:center}
+.step b{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--gold);color:var(--night);font-size:12px}
+
+/* Layout */
+main{max-width:1320px;margin:0 auto;padding:22px;display:grid;grid-template-columns:minmax(0,1fr) 370px;gap:22px;align-items:start}
+.card{background:#fff;border:1px solid var(--line);border-radius:var(--r)}
+.stage{padding:14px;position:sticky;top:12px}
+.stage-top{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+.stage-top h2{font-family:"Cormorant Garamond",serif;font-weight:600;font-size:22px;margin:0 auto 0 4px}
+.btn{border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:10px;padding:9px 14px;font-size:14px;display:inline-flex;align-items:center;gap:7px;transition:.15s;text-decoration:none;line-height:1.2}
+.btn:hover{border-color:var(--gold);background:#fffaf0}
+.btn.dark{background:var(--night);color:var(--cream);border-color:var(--night)}
+.btn.dark:hover{background:var(--night2)}
+.btn.gold{background:var(--gold);border-color:var(--gold);color:#fff}
+.btn.gold:hover{background:#a5823f}
+.btn.wa{background:var(--wa);border-color:var(--wa);color:#fff}
+.btn.wa:hover{background:#18763f}
+.btn.on{background:var(--night);color:var(--cream);border-color:var(--night)}
+.btn.sm{padding:6px 10px;font-size:13px;border-radius:8px}
+.btn.icon{padding:9px 11px}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.canvas-wrap{position:relative;border-radius:10px;overflow:hidden;background:repeating-conic-gradient(#f3eee5 0 25%,#faf7f1 0 50%) 0 0/24px 24px;min-height:420px;display:grid;place-items:center}
+canvas#cv{display:block;max-width:100%;max-height:calc(100vh - 190px);width:auto;height:auto;touch-action:none;cursor:default}
+.empty{padding:40px 24px;text-align:center;max-width:520px}
+.empty .ico{width:74px;height:74px;margin:0 auto 14px;border-radius:50%;background:var(--cream);display:grid;place-items:center}
+.empty h3{font-family:"Cormorant Garamond",serif;font-size:28px;font-weight:500;margin:0 0 6px}
+.empty p{color:var(--muted);margin:0 0 18px;line-height:1.5}
+.empty .row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.drop-hint{position:absolute;inset:0;background:rgba(31,35,29,.75);color:#fff;display:none;place-items:center;font-size:20px;font-family:"Cormorant Garamond",serif}
+.canvas-wrap.drag .drop-hint{display:grid}
+.canvas-wrap.has{min-height:0}
+.hint{font-size:12.5px;color:var(--muted);margin:10px 4px 0;display:flex;gap:16px;flex-wrap:wrap}
+
+/* Barra flotante sobre la pieza */
+.ptools{position:absolute;display:none;gap:2px;background:var(--night);border-radius:999px;padding:4px;box-shadow:0 6px 18px rgba(0,0,0,.25);z-index:5;transform:translateX(-50%);white-space:nowrap}
+.ptools button{background:none;border:0;color:var(--cream);font-size:13px;padding:7px 11px;border-radius:999px}
+.ptools button:hover{background:#3a4236}
+.ptools button.del{color:#f0a99f}
+
+/* Panel lateral */
+aside{display:flex;flex-direction:column;gap:16px}
+.panel{padding:16px}
+.panel h3{font-family:"Cormorant Garamond",serif;font-weight:600;font-size:21px;margin:0 0 4px}
+.panel .sub{font-size:13px;color:var(--muted);margin:0 0 12px;line-height:1.45}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.tab{border:1px solid var(--line);background:#fff;border-radius:999px;padding:5px 11px;font-size:12.5px;color:var(--muted)}
+.tab.on{background:var(--night);border-color:var(--night);color:var(--cream)}
+.filters{display:grid;grid-template-columns:1fr 130px;gap:8px;margin-bottom:10px}
+.filters input,.filters select{border:1px solid var(--line);border-radius:10px;padding:8px 10px;font:inherit;font-size:13.5px;background:#fff;color:var(--ink);min-width:0}
+.filters input:focus,.filters select:focus{outline:2px solid var(--gold-l);border-color:var(--gold)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-height:520px;overflow:auto;padding-right:2px}
+.item{position:relative;border:1px solid var(--line);border-radius:12px;padding:8px;background:var(--paper);display:flex;flex-direction:column;gap:4px;text-align:left;cursor:pointer}
+.item:hover,.item:focus-visible{border-color:var(--gold);outline:none}
+.item .th{height:92px;display:grid;place-items:center;background:#fff;border-radius:8px}
+.item .th img{max-width:88%;max-height:84px}
+.item .nm{font-size:13px;line-height:1.25;font-weight:500}
+.item .pr{font-size:12.5px;color:var(--gold);font-weight:600}
+.item .meta{font-size:11px;color:var(--muted)}
+.item .info{position:absolute;top:6px;right:6px;width:24px;height:24px;border-radius:50%;border:1px solid var(--line);background:#fff;color:var(--muted);font-size:12px;font-weight:600;font-style:italic;font-family:"Cormorant Garamond",serif;display:grid;place-items:center;padding:0}
+.item .info:hover{border-color:var(--gold);color:var(--ink)}
+.badge{display:inline-block;background:#f4e7cd;color:#7a5a1e;border-radius:999px;font-size:10.5px;font-weight:600;padding:2px 7px;letter-spacing:.02em;font-style:normal;vertical-align:middle}
+.item .badge{position:absolute;top:8px;left:8px}
+.no-res{grid-column:1/-1;font-size:13px;color:var(--muted);padding:14px 4px}
+.upload-own{margin-top:12px;border:1px dashed var(--gold);border-radius:12px;padding:10px 12px;font-size:13px;color:var(--muted);display:flex;align-items:center;gap:10px}
+.upload-own label{color:var(--ink);font-weight:500;cursor:pointer;text-decoration:underline;text-decoration-color:var(--gold)}
+
+.sel-empty{font-size:13px;color:var(--muted)}
+.ctrl{display:grid;grid-template-columns:88px 1fr 44px;align-items:center;gap:8px;margin:8px 0;font-size:13px}
+.ctrl output{font-size:12px;color:var(--muted);text-align:right}
+input[type=range]{width:100%;accent-color:var(--gold)}
+.actions{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.check{display:flex;gap:8px;align-items:flex-start;font-size:13px;margin-top:10px;line-height:1.4;cursor:pointer}
+.check input{accent-color:var(--gold);margin-top:2px}
+
+.ai-box{background:linear-gradient(160deg,#fffaf0,#f7efe0);border-color:#ead9b6}
+.ai-row{display:flex;gap:8px;flex-wrap:wrap}
+.ai-out{margin-top:12px;font-size:14px;line-height:1.55;display:none}
+.ai-out.show{display:block}
+.quote{border-left:3px solid var(--gold);padding:4px 0 4px 12px;font-family:"Cormorant Garamond",serif;font-size:18px;font-style:italic}
+.rec{display:flex;gap:10px;align-items:center;border:1px solid var(--line);background:#fff;border-radius:10px;padding:8px;margin-top:8px}
+.rec img{width:46px;height:46px;object-fit:contain}
+.rec .t{flex:1;font-size:13px;line-height:1.35}
+.rec .t b{display:block;font-weight:600}
+.spin{display:inline-block;width:14px;height:14px;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;animation:sp .8s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.note{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.45}
+
+.sum li{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--line);font-size:14px}
+.sum li .p{white-space:nowrap;display:flex;align-items:center;gap:6px}
+.sum ul{list-style:none;margin:0;padding:0}
+.sum .x{border:0;background:none;color:var(--muted);font-size:17px;line-height:1;padding:2px 4px;border-radius:6px}
+.sum .x:hover{color:#a3392f;background:#fbeeea}
+.sum .tot{display:flex;justify-content:space-between;font-weight:600;font-size:16px;padding-top:10px}
+.sum .tot span:last-child{color:var(--gold)}
+.urgent{margin-top:10px;background:#fbf3e3;border:1px solid #ecd9b0;border-radius:10px;padding:8px 10px;font-size:12.5px;line-height:1.45;color:#6b5220}
+
+/* Bloques inferiores */
+.real,.visit{max-width:1320px;margin:0 auto 22px;padding:0 22px}
+.real .card{padding:22px;display:grid;grid-template-columns:1fr 1.2fr;gap:24px;align-items:center;background:var(--night);color:var(--cream);border-color:var(--night)}
+.real h3,.visit h3{font-family:"Cormorant Garamond",serif;font-size:28px;font-weight:500;margin:0 0 8px}
+.real h3{color:#fff}
+.real p{color:#d4ccbb;line-height:1.55;margin:0 0 10px;font-weight:300}
+.real ol{margin:0;padding-left:20px;color:#e6dfd0;line-height:1.7;font-size:14px}
+.real a{color:var(--gold-l)}
+.prompt{background:#151813;border:1px solid #3b4236;border-radius:12px;padding:14px;font-size:13.5px;line-height:1.55;color:#e9e2d2;position:relative}
+.prompt .btn{margin-top:10px}
+.visit .card{padding:22px;display:grid;grid-template-columns:1.3fr 1fr;gap:24px;align-items:center;background:var(--cream);border-color:#e6dcc9}
+.visit p{color:#5d554a;line-height:1.55;margin:0 0 6px}
+.visit .addr{font-size:15px;line-height:1.6;margin-bottom:12px}
+.visit .addr b{font-family:"Cormorant Garamond",serif;font-size:20px;letter-spacing:.12em}
+.visit .row{display:flex;gap:8px;flex-wrap:wrap}
+
+footer{background:var(--night);color:#bdb4a2;text-align:center;padding:22px;font-size:13px;line-height:1.6}
+footer b{color:var(--gold-l);letter-spacing:.25em;font-family:"Cormorant Garamond",serif;font-size:18px}
+
+/* Modales */
+.modal{position:fixed;inset:0;background:rgba(20,22,18,.7);display:none;place-items:center;z-index:50;padding:20px}
+.modal.show{display:grid}
+.modal .box{background:#fff;border-radius:16px;max-width:860px;width:100%;padding:18px;max-height:92vh;overflow:auto}
+.modal img.full{width:100%;border-radius:10px;display:block}
+.ficha{display:grid;grid-template-columns:1fr 1.1fr;gap:22px}
+.ficha .pic{background:var(--cream);border-radius:12px;display:grid;place-items:center;padding:18px;min-height:280px}
+.ficha .pic img{max-width:100%;max-height:340px}
+.ficha h4{font-family:"Cormorant Garamond",serif;font-size:30px;font-weight:500;margin:0 0 4px;line-height:1.1}
+.ficha .price{font-size:20px;color:var(--gold);font-weight:600;margin:4px 0 10px}
+.ficha p{line-height:1.55;margin:0 0 12px;color:#4a443c}
+.ficha dl{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:13.5px;margin:0 0 14px}
+.ficha dt{color:var(--muted)}
+.ficha dd{margin:0}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(30px);opacity:0;background:var(--night);color:var(--cream);padding:10px 18px;border-radius:999px;font-size:14px;transition:.25s;z-index:60;pointer-events:none;max-width:90vw;text-align:center}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+@media (max-width:980px){
+  main{grid-template-columns:1fr}
+  .stage{position:relative;top:0}
+  canvas#cv{max-height:none;width:100%}
+  .hero{grid-template-columns:1fr}
+  .steps{justify-content:flex-start}
+  .real .card,.visit .card{grid-template-columns:1fr}
+  .bar .where{display:none}
+  .grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));max-height:none}
+  .ficha{grid-template-columns:1fr}
+  .ficha .pic{min-height:200px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="bar">
+    <a class="back" href="/" aria-label="Volver a la página principal de Ecléctico">← Atrás</a>
+    <div class="brand">
+      <svg viewBox="0 0 100 100" aria-label="Isotipo Ecléctico">
+        <circle cx="50" cy="50" r="46" fill="none" stroke="#d9bc7f" stroke-width="2.5"/>
+        <circle cx="50" cy="50" r="39" fill="none" stroke="#d9bc7f" stroke-width="1.2"/>
+        <text x="50" y="66" text-anchor="middle" font-family="Cormorant Garamond, Georgia, serif" font-size="48" font-weight="600" fill="#d9bc7f">E</text>
+        <path d="M71 27 l2.2 5 5 2.2 -5 2.2 -2.2 5 -2.2 -5 -5 -2.2 5 -2.2z" fill="#d9bc7f"/>
+      </svg>
+      <div>
+        <div class="name">ECLÉCTICO</div>
+        <div class="tag">Espacios con personalidad</div>
+      </div>
+    </div>
+    <div class="spacer"></div>
+    <div class="where">Muebles · Decoración · Antigüedades<br><a class="maps-link" href="#" target="_blank" rel="noopener">C/ Reina Victoria 18 · Elda ↗</a></div>
+  </div>
+  <div class="hero">
+    <div>
+      <h1>Prueba nuestras piezas <em>en tu casa</em> antes de llevártelas.</h1>
+      <p>Sube una foto de tu salón, dormitorio o entrada, elige muebles y objetos de nuestro catálogo y mira cómo quedan. Nuestra IA te ayuda a colocarlos a la escala correcta, te sugiere qué le va a tu estancia y, cuando lo tengas claro, nos lo mandas por WhatsApp.</p>
+    </div>
+    <div class="steps">
+      <div class="step"><b>1</b>Sube tu estancia</div>
+      <div class="step"><b>2</b>Añade piezas</div>
+      <div class="step"><b>3</b>Ajusta con IA</div>
+      <div class="step"><b>4</b>Pídenos presupuesto</div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="card stage">
+    <div class="stage-top">
+      <h2>Tu estancia</h2>
+      <button class="btn icon" id="btnUndo" title="Deshacer (Ctrl+Z)" aria-label="Deshacer" disabled>↶</button>
+      <button class="btn icon" id="btnRedo" title="Rehacer (Ctrl+Y)" aria-label="Rehacer" disabled>↷</button>
+      <button class="btn" id="btnCompare" disabled title="Compara tu estancia sin y con las piezas">◐ Antes / después</button>
+      <label class="btn" for="roomFile">📷 Cambiar foto</label>
+      <input id="roomFile" type="file" accept="image/*" hidden>
+      <button class="btn" id="btnClear" disabled>Vaciar piezas</button>
+      <button class="btn dark" id="btnExport" disabled>⬇ Guardar imagen</button>
+    </div>
+    <div class="canvas-wrap" id="wrap">
+      <div class="empty" id="empty">
+        <div class="ico"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#b8924a" stroke-width="1.6"><path d="M3 21V9l9-6 9 6v12"/><path d="M8 21v-6h8v6"/></svg></div>
+        <h3>Empieza con una foto de tu casa</h3>
+        <p>Haz la foto de frente, con buena luz y desde la altura del pecho. Cuanto más despejada esté la zona, mejor quedarán las piezas.</p>
+        <div class="row">
+          <label class="btn gold" for="roomFile">📷 Subir foto de mi estancia</label>
+          <button class="btn" id="btnSample">Probar con una estancia de ejemplo</button>
+        </div>
+        <p class="note" style="margin-top:14px">También puedes arrastrar la foto aquí. Tu foto no se sube a ningún servidor: se queda en tu navegador, y guardamos tu montaje para que lo encuentres al volver.</p>
+      </div>
+      <canvas id="cv" hidden></canvas>
+      <div class="ptools" id="ptools">
+        <button data-a="dup" title="Duplicar">⧉ Duplicar</button>
+        <button data-a="flip" title="Voltear">⇋</button>
+        <button data-a="front" title="Traer delante">⬆</button>
+        <button data-a="back" title="Enviar atrás">⬇</button>
+        <button data-a="info" title="Ver ficha">Ficha</button>
+        <button data-a="del" class="del" title="Quitar">✕</button>
+      </div>
+      <div class="drop-hint">Suelta la foto aquí</div>
+    </div>
+    <div class="hint" id="hint"></div>
+  </section>
+
+  <aside>
+    <div class="card panel ai-box">
+      <h3>✨ Decorador IA</h3>
+      <p class="sub">La IA mira tu foto, calcula la perspectiva y la luz, y coloca las piezas a escala real. También puede sugerirte qué le va a tu estancia.</p>
+      <div class="ai-row">
+        <button class="btn gold" id="btnPlace" disabled>Colocar con IA</button>
+        <button class="btn" id="btnSuggest" disabled>¿Qué le va a mi estancia?</button>
+      </div>
+      <div class="note" id="aiNote"></div>
+      <div class="ai-out" id="aiOut"></div>
+    </div>
+
+    <div class="card panel">
+      <h3>Pieza seleccionada</h3>
+      <div id="selBox"><p class="sel-empty">Toca una pieza en la foto para ajustarla.</p></div>
+    </div>
+
+    <div class="card panel">
+      <h3>Realismo de la escena</h3>
+      <p class="sub">Ajusta la luz y la perspectiva de tu foto para que todas las piezas encajen. «Colocar con IA» lo calcula por ti.</p>
+      <div class="ctrl"><span>Luz viene de</span><input type="range" id="sLight" min="-100" max="100" value="-30"><output id="oLight"></output></div>
+      <div class="ctrl"><span>Horizonte</span><input type="range" id="sHz" min="15" max="85" value="42"><output id="oHz"></output></div>
+      <label class="check"><input type="checkbox" id="cDepth" checked> Las piezas de suelo se hacen más pequeñas al llevarlas hacia el fondo</label>
+    </div>
+
+    <div class="card panel">
+      <h3>Catálogo</h3>
+      <p class="sub">Toca una pieza para añadirla a tu estancia, o la <i class="serif" style="font-weight:600">i</i> para ver su ficha.</p>
+      <div class="tabs" id="tabs"></div>
+      <div class="filters">
+        <input id="q" type="search" placeholder="Buscar: nogal, años 60, latón…" aria-label="Buscar en el catálogo">
+        <select id="price" aria-label="Filtrar por precio">
+          <option value="">Precio: todos</option>
+          <option value="a">Hasta 200 €</option>
+          <option value="b">200 – 500 €</option>
+          <option value="c">500 – 1.000 €</option>
+          <option value="d">Más de 1.000 €</option>
+        </select>
+      </div>
+      <div class="grid" id="catalog"></div>
+      <div class="upload-own">
+        <span style="font-size:20px">＋</span>
+        <div><label for="ownFile">Sube la foto de una pieza</label> que hayas visto en la tienda (mejor con fondo blanco; lo quitamos automáticamente).</div>
+        <input id="ownFile" type="file" accept="image/*" hidden>
+      </div>
+    </div>
+
+    <div class="card panel sum">
+      <h3>Tu selección</h3>
+      <div id="sumBox"><p class="sel-empty">Aún no has añadido piezas.</p></div>
+    </div>
+  </aside>
+</main>
+
+<section class="visit">
+  <div class="card">
+    <div>
+      <h3>Ven a verlas en persona</h3>
+      <p>Muchas de nuestras piezas son antigüedades únicas: sentarte en esa butaca, tocar la madera y ver el color real marca la diferencia. Dinos qué te ha gustado y te la apartamos para que vengas a verla con calma.</p>
+    </div>
+    <div>
+      <div class="addr"><b>ECLÉCTICO</b><br>C/ Reina Victoria 18 · Elda (Alicante)</div>
+      <div class="row">
+        <a class="btn dark maps-link" href="#" target="_blank" rel="noopener">📍 Cómo llegar</a>
+        <a class="btn wa" id="waVisit" href="#" target="_blank" rel="noopener">💬 Pedir cita por WhatsApp</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="real">
+  <div class="card">
+    <div>
+      <h3>¿Lo quieres ver todavía más real?</h3>
+      <p>El montaje te da la idea de tamaño y combinación. Para un acabado fotográfico, con sombras y luz integradas, pásalo por un generador de imágenes con IA:</p>
+      <ol>
+        <li>Pulsa <b>Guardar imagen</b> para descargar tu montaje.</li>
+        <li>Ábrelo en <a href="https://gemini.google.com" target="_blank" rel="noopener">Gemini</a> o en ChatGPT.</li>
+        <li>Pega este texto junto a la imagen.</li>
+      </ol>
+    </div>
+    <div class="prompt">
+      <div id="promptText">Convierte esta imagen en una fotografía de interiorismo totalmente realista. Mantén la habitación exactamente igual (paredes, suelo, ventanas, luz) y mantén cada mueble y objeto en la misma posición y tamaño, pero intégralos de forma fotorrealista: perspectiva correcta, sombras de contacto en el suelo, reflejos y la misma iluminación y temperatura de color de la estancia. Materiales con textura real (madera, terciopelo, latón, cerámica). Estilo ecléctico y cálido, sin añadir ni quitar objetos.</div>
+      <button class="btn gold sm" id="btnCopyPrompt">Copiar texto</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <b>ECLÉCTICO</b><br>
+  No buscamos espacios perfectos, buscamos espacios con alma.<br>
+  C/ Reina Victoria 18 · Elda (Alicante)
+</footer>
+
+<div class="modal" id="modal"><div class="box">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+    <strong class="serif" style="font-size:22px">Tu montaje</strong>
+    <button class="btn sm" data-close>Cerrar</button>
+  </div>
+  <img id="modalImg" class="full" alt="Montaje de tu estancia">
+  <p class="note">Para guardarla: mantén pulsada la imagen (móvil) o clic derecho → «Guardar imagen como…» (ordenador). Después puedes adjuntarla en WhatsApp junto a tu selección.</p>
+</div></div>
+
+<div class="modal" id="ficha"><div class="box">
+  <div style="display:flex;justify-content:flex-end;margin-bottom:6px"><button class="btn sm" data-close>Cerrar</button></div>
+  <div id="fichaBody"></div>
+</div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============ Datos de la tienda ============ */
+// Escribe aquí el número de WhatsApp de la tienda con prefijo y sin espacios, p. ej. '34600123456'.
+// Si lo dejas vacío, WhatsApp se abre con el mensaje listo y el cliente elige a quién enviarlo.
+const TIENDA = { whatsapp:'', direccion:'Calle Reina Victoria 18, Elda, Alicante' };
+const waLink = t => 'https://wa.me/' + (TIENDA.whatsapp||'') + '?text=' + encodeURIComponent(t);
+const MAPS = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(TIENDA.direccion);
+
+/* ============ Utilidades ============ */
+const $ = s => document.querySelector(s);
+const svgURI = s => 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(s);
+const fmt = n => n.toLocaleString('es-ES') + ' €';
+const clamp = (v,a,b) => Math.max(a,Math.min(b,v));
+const norm = s => String(s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove('show'),2400);}
+function seeded(seed){return()=>{seed=(seed*16807)%2147483647;return(seed-1)/2147483646;};}
+function loadImg(src){return new Promise((ok,ko)=>{const i=new Image();i.onload=()=>ok(i);i.onerror=ko;i.src=src;});}
+const esc = s => String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const isMobile = () => matchMedia('(max-width:980px)').matches;
+
+/* ============ Ilustraciones del catálogo (SVG propios) ============ */
+function S(w,h,body){return `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">${body}</svg>`;}
+
+const chesterTufts = (()=>{let o='';[52,86,120].forEach((y,r)=>{for(let x=80+(r%2)*17;x<=225;x+=34)o+=`<circle cx="${x}" cy="${y}" r="3.2" fill="#152a1e" opacity=".7"/><path d="M${x-12} ${y-8} L${x} ${y} L${x+12} ${y-8}" stroke="#2b4a37" stroke-width="1.2" fill="none" opacity=".6"/>`;});return o;})();
+const studs = (()=>{let o='';for(let x=34;x<=266;x+=9)o+=`<circle cx="${x}" cy="190" r="2" fill="#d9bc7f"/>`;return o;})();
+const olive = (()=>{const r=seeded(7);let o='';const cols=['#6f8150','#5b6c40','#8a9b62','#7c8d58','#a3b07a'];
+  for(let i=0;i<150;i++){const a=r()*Math.PI*2, d=Math.sqrt(r());const cx=130+Math.cos(a)*d*105, cy=170+Math.sin(a)*d*120;
+    o+=`<ellipse cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" rx="${(10+r()*8).toFixed(1)}" ry="${(3+r()*2).toFixed(1)}" fill="${cols[i%5]}" transform="rotate(${(r()*180).toFixed(0)} ${cx.toFixed(1)} ${cy.toFixed(1)})"/>`;}
+  return o;})();
+const sunRays = (()=>{let o='';for(let i=0;i<32;i++){const a=i/32*Math.PI*2, L=i%2?128:146;const x1=150+Math.cos(a)*92,y1=150+Math.sin(a)*92,x2=150+Math.cos(a)*L,y2=150+Math.sin(a)*L;
+  o+=`<line x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}" stroke="url(#gr)" stroke-width="${i%2?4:5}" stroke-linecap="round"/><circle cx="${x2.toFixed(1)}" cy="${y2.toFixed(1)}" r="${i%2?3.5:5}" fill="#c9a24f"/>`;}return o;})();
+const fringe = (()=>{let o='';for(let x=4;x<600;x+=7)o+=`<line x1="${x}" y1="190" x2="${x+(x%14?1:-1)}" y2="200" stroke="#eadfc8" stroke-width="2"/>`;return o;})();
+const rugMotifs = (()=>{let o='';for(let i=0;i<9;i++){const t=i/8;const x=60+t*480;o+=`<path d="M${x} 176 l6 -7 6 7 -6 7z" fill="#d9bc7f"/>`;}for(let i=0;i<7;i++){const x=125+i*58;o+=`<path d="M${x} 14 l4 -4 4 4 -4 4z" fill="#d9bc7f"/>`;}return o;})();
+const pampas = (()=>{const r=seeded(3);let o='';const stems=[[-38,-200],[-12,-230],[14,-215],[36,-185],[-26,-170],[24,-245]];
+  stems.forEach(([dx,dy],k)=>{const x0=80,y0=165,x1=80+dx,y1=165+dy;o+=`<path d="M${x0} ${y0} Q${x0+dx*.3} ${y0+dy*.6} ${x1} ${y1}" stroke="#9c8659" stroke-width="2" fill="none"/>`;
+    for(let j=0;j<9;j++){const t=.55+j*.05;const px=x0+(x1-x0)*t+(r()-.5)*6,py=y0+(y1-y0)*t;o+=`<ellipse cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" rx="${(7+r()*5).toFixed(1)}" ry="${(14+r()*6).toFixed(1)}" fill="${k%2?'#eadcbd':'#e2d1ad'}" opacity=".85" transform="rotate(${(dx*.6+(r()-.5)*30).toFixed(0)} ${px.toFixed(1)} ${py.toFixed(1)})"/>`;}});
+  return o;})();
+const books = (()=>{const r=seeded(11);let o='';const cols=['#8c2f2b','#2f4a3a','#c9a24f','#1f3b4d','#b5643c','#e9dfca','#5a3a24'];
+  [[118,196],[218,150],[418,196]].forEach(([sy,end])=>{let x=24;while(x<end){const bw=8+r()*10,bh=50+r()*34;
+    o+=`<rect x="${x.toFixed(1)}" y="${(sy-bh).toFixed(1)}" width="${Math.min(bw,end-x).toFixed(1)}" height="${bh.toFixed(1)}" fill="${cols[(r()*cols.length)|0]}"/>`;x+=bw+1.5;}});
+  return o;})();
+const clockTicks = (()=>{let o='';for(let i=0;i<12;i++){const a=i/12*Math.PI*2;const x1=120+Math.sin(a)*72,y1=120-Math.cos(a)*72,x2=120+Math.sin(a)*84,y2=120-Math.cos(a)*84;
+  o+=`<line x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}" stroke="#2b1d12" stroke-width="${i%3?2.5:5}" stroke-linecap="round"/>`;}return o;})();
+const WEAVE = `<pattern id="wv" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="10" height="10" fill="#c99a5b"/><line x1="0" y1="0" x2="0" y2="10" stroke="#a87a40" stroke-width="3"/><line x1="0" y1="5" x2="10" y2="5" stroke="#dcb27a" stroke-width="2"/></pattern>`;
+const GOLD = `<linearGradient id="gd" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#9c7a36"/><stop offset=".5" stop-color="#e2c27a"/><stop offset="1" stop-color="#8f6e2f"/></linearGradient>`;
+const LINEN = `<linearGradient id="ln" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#e3d8c1"/><stop offset=".5" stop-color="#f7f0e0"/><stop offset="1" stop-color="#d9ccb2"/></linearGradient>`;
+
+/* sup = altura de la superficie de apoyo (fracción desde abajo) para colocar objetos encima */
+const CATALOG = [
+ {id:'chester', nombre:'Butaca Chester de terciopelo', cat:'Asientos', tipo:'suelo', ancho:95, alto:80, precio:890, unico:true,
+  desc:'Un clásico inglés tapizado en terciopelo verde botella, con capitoné y tachuelas doradas. Restaurada con mimo para que dure otros cincuenta años.',
+  material:'Terciopelo, madera de haya y tachuelas de latón', epoca:'Estilo inglés, años 70 (restaurada)', svg:S(300,260,`
+  <defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3f6b52"/><stop offset="1" stop-color="#1c3528"/></linearGradient>
+  <radialGradient id="h" cx=".4" cy=".25" r=".85"><stop offset="0" stop-color="#5f8e70"/><stop offset="1" stop-color="#22402e"/></radialGradient></defs>
+  <rect x="45" y="18" width="210" height="140" rx="34" fill="url(#h)"/>${chesterTufts}
+  <rect x="8" y="78" width="80" height="140" rx="38" fill="url(#g)"/><ellipse cx="48" cy="92" rx="36" ry="14" fill="#4f7d61"/>
+  <rect x="212" y="78" width="80" height="140" rx="38" fill="url(#g)"/><ellipse cx="252" cy="92" rx="36" ry="14" fill="#4f7d61"/>
+  <rect x="72" y="136" width="156" height="54" rx="20" fill="#386049"/><rect x="82" y="140" width="136" height="12" rx="6" fill="#4c7a5e" opacity=".7"/>
+  <rect x="22" y="180" width="256" height="50" rx="14" fill="url(#g)"/>${studs}
+  <ellipse cx="50" cy="242" rx="15" ry="12" fill="#3a2414"/><ellipse cx="250" cy="242" rx="15" ry="12" fill="#3a2414"/>`)},
+ {id:'sofa60', nombre:'Sofá años 60 mostaza', cat:'Asientos', tipo:'suelo', ancho:200, alto:80, precio:1250, unico:true,
+  desc:'Líneas mid-century, patas cónicas de teca y un mostaza que ilumina cualquier salón. Retapizado respetando su forma original.',
+  material:'Estructura de teca, tapizado de lana', epoca:'Años 60', svg:S(500,230,`
+  <defs><linearGradient id="m" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e1ad45"/><stop offset="1" stop-color="#a87618"/></linearGradient>
+  <linearGradient id="w" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#7a4a22"/><stop offset=".5" stop-color="#9a6533"/><stop offset="1" stop-color="#6e421e"/></linearGradient></defs>
+  <polygon points="66,182 80,182 70,228 60,228" fill="#5a3518"/><polygon points="420,182 434,182 440,228 430,228" fill="#5a3518"/>
+  <polygon points="120,182 132,182 128,224 120,224" fill="#4a2b13"/><polygon points="368,182 380,182 380,224 372,224" fill="#4a2b13"/>
+  <rect x="34" y="166" width="432" height="20" rx="6" fill="url(#w)"/>
+  <rect x="20" y="88" width="48" height="92" rx="14" fill="url(#m)"/><rect x="432" y="88" width="48" height="92" rx="14" fill="url(#m)"/>
+  <rect x="60" y="36" width="186" height="100" rx="22" fill="url(#m)"/><rect x="254" y="36" width="186" height="100" rx="22" fill="url(#m)"/>
+  <circle cx="122" cy="80" r="3" fill="#7d570f"/><circle cx="184" cy="80" r="3" fill="#7d570f"/><circle cx="316" cy="80" r="3" fill="#7d570f"/><circle cx="378" cy="80" r="3" fill="#7d570f"/>
+  <rect x="58" y="128" width="384" height="46" rx="14" fill="#c8932c"/><line x1="250" y1="130" x2="250" y2="172" stroke="#9c6e15" stroke-width="2"/>
+  <rect x="68" y="131" width="364" height="9" rx="4" fill="#e6b85a" opacity=".7"/>`)},
+ {id:'butaca-ratan', nombre:'Butaca de ratán natural', cat:'Asientos', tipo:'suelo', ancho:75, alto:85, precio:340,
+  desc:'Fibra natural tejida a mano, con cojín de lino crudo. Ligera, fresca y perfecta para un rincón de lectura junto a la ventana.',
+  material:'Ratán natural y lino', epoca:'Artesanía actual', svg:S(260,300,`
+  <defs>${WEAVE}</defs>
+  <line x1="62" y1="225" x2="45" y2="296" stroke="#7a5230" stroke-width="8" stroke-linecap="round"/><line x1="198" y1="225" x2="215" y2="296" stroke="#7a5230" stroke-width="8" stroke-linecap="round"/>
+  <line x1="95" y1="228" x2="92" y2="286" stroke="#5f3e22" stroke-width="7" stroke-linecap="round"/><line x1="165" y1="228" x2="168" y2="286" stroke="#5f3e22" stroke-width="7" stroke-linecap="round"/>
+  <path d="M28 205 Q14 28 130 18 Q246 28 232 205 Z" fill="url(#wv)" stroke="#8d6230" stroke-width="6"/>
+  <ellipse cx="130" cy="120" rx="70" ry="62" fill="#efe6d4"/><ellipse cx="130" cy="105" rx="50" ry="30" fill="#f8f2e6" opacity=".7"/>
+  <rect x="42" y="176" width="176" height="54" rx="20" fill="#e9dfca"/><rect x="52" y="180" width="156" height="12" rx="6" fill="#f7f1e6"/>`)},
+ {id:'thonet', nombre:'Silla Thonet de madera curvada', cat:'Asientos', tipo:'suelo', ancho:45, alto:90, precio:145, unico:true,
+  desc:'La silla de café vienesa por excelencia, con asiento de rejilla. Una joya de madera curvada al vapor que combina con todo.',
+  material:'Haya curvada al vapor y rejilla natural', epoca:'Años 20', svg:S(200,420,`
+  <defs><pattern id="cane" width="8" height="8" patternUnits="userSpaceOnUse"><rect width="8" height="8" fill="#e6cc94"/><circle cx="4" cy="4" r="2" fill="#b8955a"/></pattern></defs>
+  <g stroke="#5a3519" stroke-linecap="round" fill="none">
+   <line x1="78" y1="250" x2="74" y2="404" stroke-width="7" stroke="#47290f"/><line x1="122" y1="250" x2="126" y2="404" stroke-width="7" stroke="#47290f"/>
+   <ellipse cx="100" cy="335" rx="58" ry="12" stroke-width="5"/>
+   <line x1="48" y1="245" x2="38" y2="412" stroke-width="9"/><line x1="152" y1="245" x2="162" y2="412" stroke-width="9"/>
+   <path d="M55 240 C38 130 50 30 100 22 C150 30 162 130 145 240" stroke-width="10"/>
+   <path d="M72 200 C62 130 72 70 100 64 C128 70 138 130 128 200" stroke-width="6"/>
+  </g>
+  <ellipse cx="100" cy="240" rx="72" ry="20" fill="#d8b878" stroke="#5a3519" stroke-width="7"/>
+  <ellipse cx="100" cy="238" rx="58" ry="13" fill="url(#cane)"/>`)},
+ {id:'puf', nombre:'Puf marroquí de cuero', cat:'Asientos', tipo:'suelo', ancho:55, alto:40, precio:160,
+  desc:'Cuero curtido a mano con bordados en hilo dorado. Sirve de asiento extra, reposapiés o mesita improvisada.',
+  material:'Cuero de cabra e hilo de algodón', epoca:'Artesanía marroquí', svg:S(260,190,`
+  <defs><radialGradient id="pf" cx=".4" cy=".3" r=".9"><stop offset="0" stop-color="#c47a42"/><stop offset="1" stop-color="#7d4220"/></radialGradient></defs>
+  <path d="M14 60 Q10 150 40 168 Q130 186 220 168 Q250 150 246 60Z" fill="url(#pf)"/>
+  <path d="M40 82 Q34 130 48 166 M85 92 Q82 135 88 176 M130 94 V180 M175 92 Q178 135 172 176 M220 82 Q226 130 212 166" stroke="#6a3818" stroke-width="2" fill="none"/>
+  <polyline points="22,124 40,112 58,128 76,114 94,130 112,116 130,132 148,116 166,130 184,114 202,128 220,112 238,124" stroke="#e2c27a" stroke-width="2.5" fill="none"/>
+  <ellipse cx="130" cy="60" rx="116" ry="34" fill="#b86d38"/>
+  <ellipse cx="130" cy="60" rx="90" ry="24" fill="none" stroke="#e2c27a" stroke-width="2" stroke-dasharray="6 5"/>
+  <ellipse cx="130" cy="60" rx="40" ry="11" fill="none" stroke="#e2c27a" stroke-width="2"/>`)},
+ {id:'aparador', nombre:'Aparador de nogal vintage', cat:'Almacenaje', tipo:'suelo', ancho:160, alto:80, precio:690, unico:true, sup:.9,
+  desc:'Nogal macizo con vetas preciosas y tiradores de latón originales. Mucho espacio para la vajilla y una superficie perfecta para lámparas y jarrones.',
+  material:'Nogal macizo y latón', epoca:'Años 50', svg:S(400,230,`
+  <defs><linearGradient id="n" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#5a341b"/><stop offset=".35" stop-color="#7d4b27"/><stop offset=".7" stop-color="#6a3e20"/><stop offset="1" stop-color="#4f2d16"/></linearGradient></defs>
+  <polygon points="40,190 54,190 46,228 38,228" fill="#3c2311"/><polygon points="346,190 360,190 362,228 354,228" fill="#3c2311"/>
+  <rect x="20" y="32" width="360" height="162" rx="5" fill="url(#n)"/>
+  <path d="M30 60 Q120 52 200 64 T370 58 M30 120 Q140 112 230 124 T370 118 M30 170 Q100 165 200 174 T370 168" stroke="#4a2a14" stroke-width="1.4" fill="none" opacity=".45"/>
+  <rect x="13" y="24" width="374" height="13" rx="4" fill="#5c351b"/>
+  <line x1="140" y1="40" x2="140" y2="186" stroke="#3e2310" stroke-width="2.5"/><line x1="260" y1="40" x2="260" y2="186" stroke="#3e2310" stroke-width="2.5"/>
+  <line x1="140" y1="88" x2="260" y2="88" stroke="#3e2310" stroke-width="2.5"/><line x1="140" y1="138" x2="260" y2="138" stroke="#3e2310" stroke-width="2.5"/>
+  <rect x="180" y="60" width="40" height="5" rx="2.5" fill="#d2ad62"/><rect x="180" y="110" width="40" height="5" rx="2.5" fill="#d2ad62"/><rect x="180" y="160" width="40" height="5" rx="2.5" fill="#d2ad62"/>
+  <rect x="124" y="96" width="5" height="34" rx="2.5" fill="#d2ad62"/><rect x="271" y="96" width="5" height="34" rx="2.5" fill="#d2ad62"/>`)},
+ {id:'comoda', nombre:'Cómoda provenzal pintada', cat:'Almacenaje', tipo:'suelo', ancho:100, alto:85, precio:590, unico:true, sup:.93,
+  desc:'Cómoda de patas curvas pintada a mano en verde salvia, con encimera crema y pomos de latón. Una pieza recuperada con todo su encanto.',
+  material:'Madera de pino, pintura a la tiza y latón', epoca:'Años 40 (restaurada)', svg:S(320,270,`
+  <defs><linearGradient id="sg" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#8ea08a"/><stop offset=".5" stop-color="#a7b8a2"/><stop offset="1" stop-color="#84967f"/></linearGradient></defs>
+  <path d="M34 226 Q30 250 22 266 L36 266 Q46 246 52 226Z M286 226 Q290 250 298 266 L284 266 Q274 246 268 226Z" fill="#6e8069"/>
+  <rect x="22" y="30" width="276" height="200" rx="6" fill="url(#sg)"/>
+  <path d="M22 222 Q160 252 298 222 L298 230 L22 230Z" fill="#7d8f78"/>
+  <rect x="14" y="18" width="292" height="16" rx="5" fill="#ddd2bb"/>
+  ${[46,104,162].map(y=>`<rect x="38" y="${y}" width="244" height="50" rx="5" fill="none" stroke="#6e8069" stroke-width="3"/><circle cx="110" cy="${y+25}" r="6" fill="#c9a24f"/><circle cx="210" cy="${y+25}" r="6" fill="#c9a24f"/>`).join('')}`)},
+ {id:'libreria', nombre:'Librería industrial', cat:'Almacenaje', tipo:'suelo', ancho:90, alto:180, precio:540,
+  desc:'Estructura de hierro negro y baldas de madera recuperada. Libros, plantas y recuerdos: aquí cabe todo lo que cuenta tu historia.',
+  material:'Hierro y madera de pino recuperada', epoca:'Diseño contemporáneo', svg:S(220,440,`
+  <rect x="14" y="10" width="192" height="12" fill="#a87444"/>
+  ${[118,218,318,418].map(y=>`<rect x="14" y="${y}" width="192" height="12" fill="#a87444"/><rect x="14" y="${y+10}" width="192" height="3" fill="#6e4524"/>`).join('')}
+  ${books}
+  <rect x="160" y="190" width="36" height="28" fill="#c9a24f"/><rect x="160" y="190" width="36" height="5" fill="#a5823f"/>
+  <ellipse cx="52" cy="262" rx="20" ry="7" fill="#6f8150" transform="rotate(-30 52 262)"/><ellipse cx="68" cy="258" rx="20" ry="7" fill="#5b6c40" transform="rotate(25 68 258)"/><ellipse cx="60" cy="250" rx="7" ry="18" fill="#7c8d58"/>
+  <path d="M40 318 L80 318 L84 278 L36 278Z" fill="#b5643c"/>
+  <path d="M140 318 C118 318 120 290 132 280 L132 268 L148 268 L148 280 C160 290 162 318 140 318Z" fill="#e9dfca"/>
+  <g fill="#222"><rect x="8" y="6" width="8" height="432"/><rect x="204" y="6" width="8" height="432"/></g>`)},
+ {id:'baul', nombre:'Baúl antiguo de viaje', cat:'Almacenaje', tipo:'suelo', ancho:90, alto:55, precio:320, unico:true, sup:.85,
+  desc:'Baúl de viaje con herrajes y remaches de latón. Úsalo como mesa de centro, a los pies de la cama o para guardar mantas.',
+  material:'Madera, cuero y latón', epoca:'Principios del s. XX', svg:S(300,185,`
+  <rect x="15" y="62" width="270" height="110" rx="6" fill="#6b3f22"/><path d="M15 72 Q150 -4 285 72 L285 80 L15 80Z" fill="#7d4a28"/>
+  <rect x="15" y="76" width="270" height="8" fill="#3b2a1e"/>
+  <rect x="58" y="22" width="16" height="152" fill="#3b2a1e"/><rect x="226" y="22" width="16" height="152" fill="#3b2a1e"/>
+  ${[40,70,100,130,158].map(y=>`<circle cx="66" cy="${y}" r="2.6" fill="#c9a24f"/><circle cx="234" cy="${y}" r="2.6" fill="#c9a24f"/>`).join('')}
+  <rect x="134" y="72" width="32" height="34" rx="4" fill="#c9a24f"/><circle cx="150" cy="88" r="4" fill="#3b2a1e"/>
+  <path d="M15 150 h22 v22 h-22z M263 150 h22 v22 h-22z" fill="#a98a4f"/>
+  <rect x="24" y="172" width="20" height="10" fill="#2b1d12"/><rect x="256" y="172" width="20" height="10" fill="#2b1d12"/>`)},
+ {id:'mesa-marmol', nombre:'Mesa auxiliar de mármol', cat:'Mesas', tipo:'suelo', ancho:50, alto:55, precio:260, sup:.74,
+  desc:'Sobre de mármol blanco veteado y base dorada. Pequeña, pero con mucha presencia al lado de un sofá o una butaca.',
+  material:'Mármol de Carrara y metal dorado', epoca:'Diseño contemporáneo', svg:S(200,230,`
+  <defs>${GOLD}</defs>
+  <path d="M90 70 L110 70 L120 202 L80 202Z" fill="url(#gd)"/><ellipse cx="100" cy="212" rx="52" ry="12" fill="url(#gd)"/>
+  <ellipse cx="100" cy="68" rx="92" ry="22" fill="#d6cfc2"/><ellipse cx="100" cy="60" rx="92" ry="22" fill="#f4f1eb"/>
+  <path d="M30 58 Q60 50 80 62 T130 56 M60 70 Q100 64 150 72 M120 48 Q140 56 168 52" stroke="#b9b1a4" stroke-width="1.3" fill="none"/>`)},
+ {id:'mesa-centro', nombre:'Mesa de centro de madera recuperada', cat:'Mesas', tipo:'suelo', ancho:110, alto:45, precio:420, sup:.92,
+  desc:'Tablón grueso de madera recuperada, con sus nudos y marcas, sobre patas de horquilla de hierro. Cada mesa es distinta.',
+  material:'Madera de olmo recuperada y hierro', epoca:'Diseño contemporáneo', svg:S(400,170,`
+  <defs><linearGradient id="rw" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#8a5a32"/><stop offset=".5" stop-color="#a87444"/><stop offset="1" stop-color="#7a4c28"/></linearGradient></defs>
+  <g stroke="#222" stroke-width="5" fill="none" stroke-linecap="round"><path d="M64 52 L46 164 M64 52 L86 164"/><path d="M336 52 L314 164 M336 52 L354 164"/></g>
+  <rect x="10" y="22" width="380" height="34" rx="4" fill="url(#rw)"/>
+  <rect x="10" y="14" width="380" height="12" rx="4" fill="#b98754"/>
+  <path d="M20 34 Q120 28 210 38 T380 34 M20 46 Q150 40 260 48 T380 44" stroke="#5e3a1d" stroke-width="1.3" fill="none" opacity=".5"/>
+  <circle cx="120" cy="38" r="4" fill="#5e3a1d" opacity=".6"/><circle cx="290" cy="44" r="3" fill="#5e3a1d" opacity=".5"/>`)},
+ {id:'lampara', nombre:'Lámpara de pie latón y lino', cat:'Iluminación', tipo:'suelo', ancho:45, alto:165, precio:245,
+  desc:'Pantalla de lino y pie de latón cepillado. Da una luz cálida y tamizada, ideal junto al sofá o la butaca de lectura.',
+  material:'Latón y lino', epoca:'Diseño contemporáneo', svg:S(200,600,`
+  <defs>${GOLD}${LINEN}</defs>
+  <ellipse cx="100" cy="584" rx="56" ry="13" fill="#2b2a26"/><ellipse cx="100" cy="579" rx="56" ry="13" fill="#4a4740"/>
+  <rect x="96" y="160" width="8" height="420" fill="url(#gd)"/><circle cx="100" cy="300" r="7" fill="url(#gd)"/>
+  <path d="M45 30 L155 30 L186 172 L14 172Z" fill="url(#ln)"/>
+  ${[0,1,2,3,4,5,6].map(i=>`<line x1="${55+i*15}" y1="32" x2="${26+i*25}" y2="170" stroke="#cfc2a6" stroke-width="1" opacity=".6"/>`).join('')}
+  <rect x="44" y="26" width="112" height="7" rx="3" fill="#cdbf9f"/><rect x="12" y="168" width="176" height="7" rx="3" fill="#cdbf9f"/>`)},
+ {id:'colgante', nombre:'Lámpara colgante de mimbre', cat:'Iluminación', tipo:'techo', ancho:55, alto:100, precio:135,
+  desc:'Campana de mimbre tejida a mano que dibuja sombras preciosas en techo y paredes. Cable textil regulable en altura.',
+  material:'Mimbre natural y cable textil', epoca:'Artesanía actual', svg:S(220,400,`
+  <defs>${WEAVE}</defs>
+  <line x1="110" y1="0" x2="110" y2="222" stroke="#2b2a26" stroke-width="3"/><rect x="98" y="0" width="24" height="8" rx="2" fill="#2b2a26"/>
+  <path d="M14 380 Q14 228 110 218 Q206 228 206 380Z" fill="url(#wv)" stroke="#8d6230" stroke-width="5"/>
+  <ellipse cx="110" cy="380" rx="96" ry="14" fill="#fff1c4" stroke="#8d6230" stroke-width="5"/>
+  <ellipse cx="110" cy="379" rx="58" ry="7" fill="#fffbe8"/>`)},
+ {id:'lampara-mesa', nombre:'Lámpara de mesa de cerámica', cat:'Iluminación', tipo:'encima', ancho:35, alto:55, precio:89,
+  desc:'Pie de cerámica esmaltada en terracota y pantalla de lino. Queda preciosa sobre un aparador, una cómoda o la mesilla.',
+  material:'Cerámica esmaltada y lino', epoca:'Artesanía actual', svg:S(160,250,`
+  <defs>${GOLD}${LINEN}<linearGradient id="tc" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#9a4f2c"/><stop offset=".45" stop-color="#cf7a4e"/><stop offset="1" stop-color="#8e4726"/></linearGradient></defs>
+  <rect x="76" y="100" width="8" height="30" fill="url(#gd)"/>
+  <path d="M80 128 C120 128 128 170 118 200 C112 220 116 236 112 244 L48 244 C44 236 48 220 42 200 C32 170 40 128 80 128Z" fill="url(#tc)"/>
+  <rect x="44" y="242" width="72" height="7" rx="3" fill="#6e3a1f"/>
+  <path d="M38 8 L122 8 L150 104 L10 104Z" fill="url(#ln)"/>
+  <rect x="36" y="5" width="88" height="6" rx="3" fill="#cdbf9f"/><rect x="8" y="101" width="144" height="6" rx="3" fill="#cdbf9f"/>`)},
+ {id:'espejo-sol', nombre:'Espejo sol dorado', cat:'Decoración', tipo:'pared', ancho:80, alto:80, precio:195,
+  desc:'Espejo sol de inspiración francesa con rayos dorados. Multiplica la luz y se convierte en el centro de atención de la pared.',
+  material:'Metal dorado y espejo', epoca:'Inspiración años 50', svg:S(300,300,`
+  <defs><linearGradient id="gr" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e6c983"/><stop offset="1" stop-color="#9c7a36"/></linearGradient>
+  <linearGradient id="mi" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#eef2f3"/><stop offset=".5" stop-color="#b8c5cc"/><stop offset="1" stop-color="#8a9aa3"/></linearGradient></defs>
+  ${sunRays}<circle cx="150" cy="150" r="94" fill="url(#gr)"/><circle cx="150" cy="150" r="80" fill="url(#mi)"/>
+  <path d="M100 120 L140 82 L152 90 L108 132Z" fill="#fff" opacity=".45"/>`)},
+ {id:'reloj', nombre:'Reloj de pared antiguo', cat:'Decoración', tipo:'pared', ancho:40, alto:40, precio:175, unico:true,
+  desc:'Reloj de estación con caja de madera y esfera crema. Revisado por un relojero y funcionando, con su tictac de siempre.',
+  material:'Madera de roble, esfera esmaltada', epoca:'Años 30', svg:S(240,240,`
+  <circle cx="120" cy="120" r="114" fill="#5a3519"/><circle cx="120" cy="120" r="102" fill="#8a5a32"/><circle cx="120" cy="120" r="90" fill="#f3ead6"/>
+  ${clockTicks}
+  <line x1="120" y1="120" x2="120" y2="64" stroke="#1d1b18" stroke-width="5" stroke-linecap="round"/>
+  <line x1="120" y1="120" x2="160" y2="138" stroke="#1d1b18" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="120" cy="120" r="6" fill="#c9a24f"/>`)},
+ {id:'cuadro', nombre:'Óleo abstracto enmarcado', cat:'Decoración', tipo:'pared', ancho:70, alto:90, precio:280, unico:true,
+  desc:'Óleo original sobre lienzo de una artista de la comarca, con marco dorado. Pieza única: no hay dos iguales.',
+  material:'Óleo sobre lienzo, marco de madera dorada', epoca:'Obra original', svg:S(240,300,`
+  <defs><linearGradient id="fr" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e2c27a"/><stop offset="1" stop-color="#8f6e2f"/></linearGradient></defs>
+  <rect width="240" height="300" fill="url(#fr)"/><rect x="12" y="12" width="216" height="276" fill="#6e5424"/><rect x="18" y="18" width="204" height="264" fill="#efe7d8"/>
+  <circle cx="152" cy="100" r="54" fill="#c2683f"/><rect x="38" y="148" width="118" height="114" fill="#2f4a3a"/>
+  <path d="M30 120 C80 60 120 210 210 150" stroke="#1d1b18" stroke-width="6" fill="none"/><circle cx="182" cy="220" r="22" fill="#d8a84a"/><rect x="120" y="190" width="70" height="8" fill="#1d1b18"/>`)},
+ {id:'olivo', nombre:'Olivo en maceta de barro', cat:'Decoración', tipo:'suelo', ancho:70, alto:150, precio:120,
+  desc:'Olivo natural en maceta de barro cocido. Un trocito del Mediterráneo dentro de casa, que pide luz y poco riego.',
+  material:'Planta natural y barro cocido', epoca:'Planta natural', svg:S(260,560,`
+  <path d="M132 400 C126 340 118 300 124 250 M124 300 C150 270 170 250 185 215 M122 270 C100 245 90 220 80 190" stroke="#5d4a36" stroke-width="9" fill="none" stroke-linecap="round"/>
+  ${olive}
+  <path d="M72 404 L188 404 L174 552 L86 552Z" fill="#b5643c"/><path d="M72 404 L188 404 L184 440 L76 440Z" fill="#a85a34" opacity=".5"/>
+  <rect x="62" y="392" width="136" height="20" rx="4" fill="#c47048"/>`)},
+ {id:'biombo', nombre:'Biombo de ratán', cat:'Decoración', tipo:'suelo', ancho:150, alto:165, precio:380,
+  desc:'Tres paneles de ratán con marco de madera. Separa ambientes, esconde un rincón desordenado o hace de cabecero original.',
+  material:'Ratán y madera de mindi', epoca:'Artesanía actual', svg:S(450,480,`
+  <defs>${WEAVE}</defs>
+  <polygon points="12,24 148,12 148,462 12,450" fill="url(#wv)" stroke="#7a4c28" stroke-width="8" stroke-linejoin="round"/>
+  <rect x="156" y="12" width="138" height="450" fill="url(#wv)" stroke="#7a4c28" stroke-width="8"/>
+  <polygon points="302,12 438,24 438,450 302,462" fill="url(#wv)" stroke="#7a4c28" stroke-width="8" stroke-linejoin="round"/>
+  <rect x="20" y="450" width="16" height="22" fill="#5a3519"/><rect x="216" y="462" width="18" height="16" fill="#5a3519"/><rect x="414" y="450" width="16" height="22" fill="#5a3519"/>`)},
+ {id:'alfombra', nombre:'Alfombra persa antigua', cat:'Textil', tipo:'alfombra', ancho:240, alto:170, precio:980, unico:true,
+  desc:'Alfombra persa anudada a mano, con la pátina preciosa que solo da el paso del tiempo. Lavada y revisada a mano.',
+  material:'Lana anudada a mano', epoca:'Años 40', svg:S(600,200,`
+  <polygon points="90,0 510,0 600,190 0,190" fill="#8c2f2b"/>
+  <polygon points="108,10 492,10 568,180 32,180" fill="none" stroke="#d9bc7f" stroke-width="5"/>
+  <polygon points="128,22 472,22 532,168 68,168" fill="#6e2422"/>
+  <polygon points="146,32 454,32 506,158 94,158" fill="none" stroke="#1f3b4d" stroke-width="4"/>
+  <ellipse cx="300" cy="95" rx="118" ry="44" fill="#1f3b4d" stroke="#d9bc7f" stroke-width="4"/>
+  <ellipse cx="300" cy="95" rx="66" ry="24" fill="#c08a3e"/><ellipse cx="300" cy="95" rx="26" ry="10" fill="#8c2f2b"/>
+  ${rugMotifs}${fringe}`)},
+ {id:'jarron', nombre:'Jarrón cerámico con pampas', cat:'Decoración', tipo:'encima', ancho:30, alto:70, precio:65,
+  desc:'Jarrón de cerámica artesanal con un ramo de pampas secas. El toque final para un aparador, una cómoda o una mesa.',
+  material:'Cerámica artesanal y pampas naturales', epoca:'Artesanía actual', svg:S(160,310,`
+  <defs><linearGradient id="v" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#b9a68a"/><stop offset=".45" stop-color="#ece2d2"/><stop offset="1" stop-color="#a8957a"/></linearGradient></defs>
+  ${pampas}
+  <path d="M60 305 C20 305 24 225 50 195 C58 185 56 172 53 166 L107 166 C104 172 102 185 110 195 C136 225 140 305 100 305Z" fill="url(#v)"/>
+  <ellipse cx="80" cy="166" rx="27" ry="5" fill="#8c7b62"/>`)},
+];
+const CATS = ['Todo', ...new Set(CATALOG.map(p=>p.cat))];
+const TIPO_TXT = {suelo:'suelo', pared:'pared', alfombra:'alfombra', encima:'sobre un mueble', techo:'techo'};
+const thumbOf = p => p.thumb || svgURI(p.svg);
+
+/* ============ Estado ============ */
+const cv = $('#cv'), ctx = cv.getContext('2d');
+let room = null;            // {img, w, h, data}
+let layers = [];            // piezas colocadas
+let selected = null;
+let uidN = 1;
+const imgCache = {};
+const scene = {hz:.42, lightX:-.3, autoDepth:true};
+let compare=false, split=.5, showHz=false, hzT=null, drag=null;
+let coarse = matchMedia('(pointer:coarse)').matches;
+
+async function pieceImg(p){
+  if(p.img) return p.img;
+  if(!imgCache[p.id]) imgCache[p.id] = loadImg(svgURI(p.svg));
+  return imgCache[p.id];
+}
+async function makeLayer(p, o={}){
+  const img = await pieceImg(p);
+  const L = {uid:uidN++, p, img, ar:img.naturalWidth/img.naturalHeight, x:0, y:0, h:100, rot:0, flip:false, bright:0, warm:0,
+    shadow:(p.tipo==='alfombra'||p.tipo==='techo')?0:60, sy:1};
+  return Object.assign(L, o);
+}
+const ser = L => ({uid:L.uid, pid:L.p.id, x:Math.round(L.x*10)/10, y:Math.round(L.y*10)/10, h:Math.round(L.h*10)/10, rot:L.rot, flip:L.flip, bright:L.bright, warm:L.warm, shadow:L.shadow, sy:L.sy});
+async function fromSnap(arr){
+  const out=[];
+  for(const o of arr){ const p=CATALOG.find(c=>c.id===o.pid); if(!p) continue; const {pid, ...rest}=o; const L=await makeLayer(p, rest); out.push(L); uidN=Math.max(uidN, L.uid+1); }
+  return out;
+}
+
+/* ============ Deshacer / rehacer + autoguardado ============ */
+let hist=[], hi=-1, commitT=null;
+const snap = () => JSON.stringify(layers.map(ser));
+function commit(){
+  clearTimeout(commitT); const s=snap(); if(hist[hi]===s) return;
+  hist=hist.slice(0,hi+1); hist.push(s); if(hist.length>80) hist.shift(); hi=hist.length-1; updUndo(); save();
+}
+function commitSoon(){ clearTimeout(commitT); commitT=setTimeout(commit,350); }
+async function goHist(d){
+  clearTimeout(commitT);
+  const n=hi+d; if(n<0||n>=hist.length) return; hi=n;
+  const selUid = selected && selected.uid;
+  layers = await fromSnap(JSON.parse(hist[hi]));
+  selected = layers.find(l=>l.uid===selUid) || null;
+  draw(); renderSel(); renderSum(); updUndo(); save();
+  toast(d<0?'Deshecho':'Rehecho');
+}
+function updUndo(){ $('#btnUndo').disabled = hi<=0; $('#btnRedo').disabled = hi>=hist.length-1; }
+$('#btnUndo').addEventListener('click',()=>goHist(-1));
+$('#btnRedo').addEventListener('click',()=>goHist(1));
+
+const KEY='eclectico-probador-v2'; let saveT=null;
+function save(){
+  clearTimeout(saveT);
+  saveT=setTimeout(()=>{
+    try{
+      if(!room||!room.data) return;
+      const own = CATALOG.filter(p=>p.cat==='Mis piezas').map(p=>({id:p.id, nombre:p.nombre, tipo:p.tipo, ancho:p.ancho, alto:p.alto, thumb:p.thumb}));
+      localStorage.setItem(KEY, JSON.stringify({room:room.data, layers:layers.map(ser), own, scene}));
+    }catch(e){ /* sin almacenamiento disponible: no pasa nada */ }
+  },500);
+}
+async function restore(){
+  let st=null; try{ st=JSON.parse(localStorage.getItem(KEY)||'null'); }catch(e){}
+  if(!st || !st.room) return false;
+  try{
+    for(const o of (st.own||[])){
+      if(CATALOG.some(p=>p.id===o.id)) continue;
+      const img = await loadImg(o.thumb);
+      CATALOG.push({...o, cat:'Mis piezas', precio:0, img, desc:'Pieza que has subido tú desde una foto.', material:'—', epoca:'—'});
+    }
+    if((st.own||[]).length && !CATS.includes('Mis piezas')) CATS.push('Mis piezas');
+    Object.assign(scene, st.scene||{}); syncScene();
+    await setRoom(st.room, true);
+    layers = await fromSnap(st.layers||[]);
+    hist=[]; hi=-1; commit();
+    draw(); renderSum(); renderTabs(); renderCatalog();
+    if(layers.length) toast('Hemos recuperado tu último montaje');
+    return true;
+  }catch(e){ return false; }
+}
+
+/* ============ Catálogo UI ============ */
+let curCat = 'Todo';
+function priceOk(p,f){
+  if(!f) return true; const v=p.precio||0; if(!v) return false;
+  return f==='a'?v<=200 : f==='b'?v>200&&v<=500 : f==='c'?v>500&&v<=1000 : v>1000;
+}
+function renderTabs(){
+  $('#tabs').innerHTML = CATS.map(c=>`<button class="tab ${c===curCat?'on':''}" data-c="${esc(c)}">${esc(c)}</button>`).join('');
+}
+function renderCatalog(){
+  const q=norm($('#q').value.trim()), f=$('#price').value;
+  const list = CATALOG.filter(p=>(curCat==='Todo'||p.cat===curCat) && priceOk(p,f) &&
+    (!q || norm([p.nombre,p.cat,p.material,p.epoca,p.desc].join(' ')).includes(q)));
+  $('#catalog').innerHTML = list.length ? list.map(p=>`
+    <div class="item" data-id="${p.id}" tabindex="0" role="button" aria-label="Añadir ${esc(p.nombre)} a mi estancia">
+      ${p.unico?'<span class="badge">Pieza única</span>':''}
+      <button class="info" data-info="${p.id}" aria-label="Ver ficha de ${esc(p.nombre)}" title="Ver ficha">i</button>
+      <div class="th"><img src="${thumbOf(p)}" alt=""></div>
+      <div class="nm">${esc(p.nombre)}</div>
+      <div class="meta">${p.ancho}×${p.alto} cm · ${TIPO_TXT[p.tipo]}</div>
+      <div class="pr">${p.precio?fmt(p.precio):'Pieza propia'}</div>
+    </div>`).join('') : '<div class="no-res">No hay piezas con esos filtros. Prueba con otra palabra o quita el filtro de precio.</div>';
+}
+$('#tabs').addEventListener('click',e=>{const b=e.target.closest('.tab');if(!b)return;curCat=b.dataset.c;renderTabs();renderCatalog();});
+$('#catalog').addEventListener('click',e=>{
+  const i=e.target.closest('[data-info]'); if(i){ openFicha(i.dataset.info); return; }
+  const b=e.target.closest('.item'); if(b) addPiece(b.dataset.id);
+});
+$('#catalog').addEventListener('keydown',e=>{ if((e.key==='Enter'||e.key===' ') && e.target.classList.contains('item')){ e.preventDefault(); addPiece(e.target.dataset.id); } });
+$('#q').addEventListener('input',renderCatalog);
+$('#price').addEventListener('change',renderCatalog);
+
+/* ============ Ficha de producto ============ */
+function openFicha(id){
+  const p=CATALOG.find(x=>x.id===id); if(!p) return;
+  const msg=`Hola Ecléctico 👋 Me interesa la pieza «${p.nombre}»${p.precio?' ('+fmt(p.precio)+')':''}. ¿Sigue disponible? Me gustaría reservarla y pasar a verla.`;
+  $('#fichaBody').innerHTML=`
+    <div class="ficha">
+      <div class="pic"><img src="${thumbOf(p)}" alt="${esc(p.nombre)}"></div>
+      <div>
+        ${p.unico?'<span class="badge">Pieza única · solo hay una</span>':''}
+        <h4>${esc(p.nombre)}</h4>
+        <div class="price">${p.precio?fmt(p.precio):'Pieza propia'}</div>
+        <p>${esc(p.desc||'')}</p>
+        <dl>
+          <dt>Medidas</dt><dd>${p.ancho} × ${p.alto} cm (ancho × alto)</dd>
+          <dt>Material</dt><dd>${esc(p.material||'—')}</dd>
+          <dt>Época</dt><dd>${esc(p.epoca||'—')}</dd>
+          <dt>Va en</dt><dd>${TIPO_TXT[p.tipo]}</dd>
+        </dl>
+        <div class="actions">
+          <button class="btn gold" data-fadd="${p.id}">＋ Probar en mi estancia</button>
+          ${p.precio?`<a class="btn wa" href="${waLink(msg)}" target="_blank" rel="noopener">💬 Reservar por WhatsApp</a>`:''}
+        </div>
+        ${p.precio?`<p class="note">Te la apartamos sin compromiso para que vengas a verla a la tienda.</p>`:''}
+      </div>
+    </div>`;
+  $('#ficha').classList.add('show');
+}
+$('#fichaBody').addEventListener('click',e=>{ const b=e.target.closest('[data-fadd]'); if(b){ $('#ficha').classList.remove('show'); addPiece(b.dataset.fadd); } });
+document.querySelectorAll('.modal').forEach(m=>m.addEventListener('click',e=>{ if(e.target===m || e.target.closest('[data-close]')) m.classList.remove('show'); }));
+
+/* ============ Estancia ============ */
+function makeData(img){
+  try{
+    const k=Math.min(1,1600/Math.max(img.naturalWidth,img.naturalHeight));
+    const c=document.createElement('canvas'); c.width=Math.round(img.naturalWidth*k); c.height=Math.round(img.naturalHeight*k);
+    c.getContext('2d').drawImage(img,0,0,c.width,c.height); return c.toDataURL('image/jpeg',.85);
+  }catch(e){ return null; }
+}
+async function setRoom(src, restoring){
+  const img = await loadImg(src);
+  const max = 1600, k = Math.min(1, max/Math.max(img.naturalWidth, img.naturalHeight));
+  room = {img, w:Math.round(img.naturalWidth*k), h:Math.round(img.naturalHeight*k), data:null};
+  cv.width = room.w; cv.height = room.h;
+  cv.hidden = false; $('#empty').hidden = true; wrap.classList.add('has');
+  room.data = restoring ? src : makeData(img);
+  if(!restoring) layers.forEach(L=>defaultPlace(L));
+  ['#btnExport','#btnCompare'].forEach(s=>$(s).disabled=false);
+  applyAIAvail();
+  draw();
+  if(!restoring){ commit(); save(); }
+}
+function readFile(file){ if(!file||!file.type.startsWith('image/')) return; setRoom(URL.createObjectURL(file)); }
+$('#roomFile').addEventListener('change',e=>{readFile(e.target.files[0]); e.target.value='';});
+const wrap = $('#wrap');
+['dragenter','dragover'].forEach(ev=>wrap.addEventListener(ev,e=>{e.preventDefault();wrap.classList.add('drag');}));
+['dragleave','drop'].forEach(ev=>wrap.addEventListener(ev,e=>{e.preventDefault();wrap.classList.remove('drag');}));
+wrap.addEventListener('drop',e=>readFile(e.dataTransfer.files[0]));
+
+function sampleRoomSVG(){
+  let floorLines='';
+  for(let i=-14;i<=14;i++){floorLines+=`<line x1="${800+i*28}" y1="700" x2="${800+i*150}" y2="1000" stroke="#7d5636" stroke-width="2" opacity=".35"/>`;}
+  [722,752,790,840,905,985].forEach(y=>floorLines+=`<line x1="0" y1="${y}" x2="1600" y2="${y}" stroke="#7d5636" stroke-width="1.5" opacity=".25"/>`);
+  return S(1600,1000,`
+  <defs><linearGradient id="wl" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ece5d8"/><stop offset=".6" stop-color="#e4dccd"/><stop offset="1" stop-color="#d7cdbb"/></linearGradient>
+  <linearGradient id="fl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a87c52"/><stop offset="1" stop-color="#8a6140"/></linearGradient>
+  <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6f8f6"/><stop offset="1" stop-color="#dfe7e4"/></linearGradient>
+  <linearGradient id="ray" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".35"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient></defs>
+  <rect width="1600" height="700" fill="url(#wl)"/>
+  <rect x="0" y="0" width="1600" height="26" fill="#f3eee5"/>
+  <rect x="180" y="150" width="330" height="440" fill="#f4efe6"/><rect x="200" y="170" width="290" height="400" fill="url(#sky)"/>
+  <line x1="345" y1="170" x2="345" y2="570" stroke="#f4efe6" stroke-width="10"/><line x1="200" y1="370" x2="490" y2="370" stroke="#f4efe6" stroke-width="10"/>
+  <rect x="165" y="586" width="360" height="16" fill="#efe9de"/>
+  <rect x="0" y="700" width="1600" height="300" fill="url(#fl)"/>${floorLines}
+  <polygon points="200,700 490,700 760,1000 120,1000" fill="url(#ray)"/>
+  <rect x="0" y="684" width="1600" height="18" fill="#f6f2ea"/><rect x="0" y="700" width="1600" height="4" fill="#00000022"/>
+  <rect x="1330" y="430" width="22" height="34" rx="3" fill="#f6f2ea" stroke="#d6ccbb"/>`);
+}
+$('#btnSample').addEventListener('click',()=>{ scene.lightX=-.6; scene.hz=.45; syncScene(); setRoom(svgURI(sampleRoomSVG())); });
+
+/* ============ Piezas ============ */
+function pxPerCm(){ return room.h*0.62/260; }
+function defaultPlace(L){
+  const W=room.w, H=room.h, k=pxPerCm(), p=L.p;
+  const n = layers.indexOf(L), off = ((n%5)-2)*W*0.09;
+  if(p.tipo==='alfombra'){ const w=p.ancho*k*1.05; L.h=w/L.ar; L.y=H*0.97; L.x=W/2; }
+  else if(p.tipo==='pared'){ L.h=p.alto*k*0.95; L.y=H*0.48; L.x=W/2+off; }
+  else if(p.tipo==='techo'){ L.h=p.alto*k; L.y=L.h; L.x=W/2+off*0.6; }
+  else if(p.tipo==='encima'){
+    const base=[...layers].reverse().find(o=>o!==L && o.p.sup);
+    if(base){
+      const bh=base.h*(base.sy||1), bw=base.h*base.ar, f=base.h/(base.p.alto*k);
+      L.h=p.alto*k*f; L.y=base.y-bh*base.p.sup; L.x=base.x+(base.p.ancho>=100?-bw*0.25:0);
+    } else { L.h=p.alto*k; L.y=H*0.72; L.x=W/2+off; }
+  }
+  else { L.h=p.alto*k; L.y=H*0.88; L.x=W/2+off; }
+}
+async function addPiece(id){
+  if(!room){ toast('Primero sube una foto de tu estancia'); wrap.scrollIntoView({behavior:'smooth',block:'center'}); return; }
+  const p = CATALOG.find(x=>x.id===id); if(!p) return;
+  const L = await makeLayer(p);
+  if(p.tipo==='alfombra') layers.unshift(L); else layers.push(L);
+  defaultPlace(L);
+  selected = L; compare=false; $('#btnCompare').classList.remove('on');
+  draw(); renderSel(); renderSum(); commit();
+  toast(`Añadido: ${p.nombre}`);
+  if(isMobile()) wrap.scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+/* ============ Dibujo ============ */
+function tinted(L, w, h){
+  const cw=Math.max(1,Math.min(1400,Math.round(w))), ch=Math.max(1,Math.min(1400,Math.round(h)));
+  const key=`${cw}x${ch}|${L.bright}|${L.warm}`;
+  if(L._key===key) return L._c;
+  const c = L._c || document.createElement('canvas'); c.width=cw; c.height=ch;
+  const g=c.getContext('2d'); g.clearRect(0,0,cw,ch); g.globalCompositeOperation='source-over'; g.drawImage(L.img,0,0,cw,ch);
+  g.globalCompositeOperation='source-atop';
+  if(L.bright>0){g.fillStyle=`rgba(255,250,240,${L.bright/100*0.55})`;g.fillRect(0,0,cw,ch);}
+  if(L.bright<0){g.fillStyle=`rgba(15,12,8,${-L.bright/100*0.7})`;g.fillRect(0,0,cw,ch);}
+  if(L.warm>0){g.fillStyle=`rgba(255,160,70,${L.warm/100*0.35})`;g.fillRect(0,0,cw,ch);}
+  if(L.warm<0){g.fillStyle=`rgba(110,150,230,${-L.warm/100*0.35})`;g.fillRect(0,0,cw,ch);}
+  L._c=c; L._key=key; return c;
+}
+function geom(L){ const h=L.h*(L.sy||1), w=L.h*L.ar; return {w, h, cx:L.x, cy:L.y-h/2}; }
+function scaleK(){ const r=cv.getBoundingClientRect(); return r.width ? cv.width/r.width : 1; }
+
+function softEllipse(x,y,rx,ry,a){
+  if(rx<=0||a<=0) return;
+  ctx.save(); ctx.translate(x,y); ctx.scale(1,ry/rx);
+  const g=ctx.createRadialGradient(0,0,0,0,0,rx);
+  g.addColorStop(0,`rgba(20,14,8,${a})`); g.addColorStop(.55,`rgba(20,14,8,${a*.45})`); g.addColorStop(1,'rgba(20,14,8,0)');
+  ctx.fillStyle=g; ctx.beginPath(); ctx.arc(0,0,rx,0,Math.PI*2); ctx.fill(); ctx.restore();
+}
+function drawPiece(L){
+  const {w,h,cx,cy}=geom(L), t=L.p.tipo, a=L.shadow/100;
+  if((t==='suelo'||t==='encima') && a>0){
+    // sombra ambiental (desplazada según de dónde viene la luz) + sombra de contacto
+    const off=-scene.lightX*w*0.16;
+    softEllipse(L.x+off, L.y-h*0.005, w*0.64, Math.max(5,w*0.09), 0.40*a);
+    softEllipse(L.x, L.y-1, w*0.45, Math.max(3,w*0.028), 0.62*a);
+  }
+  ctx.save();
+  ctx.translate(cx,cy); ctx.rotate(L.rot*Math.PI/180); if(L.flip) ctx.scale(-1,1);
+  if(t==='pared' && a>0){ ctx.shadowColor=`rgba(0,0,0,${a*0.45})`; ctx.shadowBlur=h*0.08; ctx.shadowOffsetY=h*0.03; ctx.shadowOffsetX=-scene.lightX*h*0.05*(L.flip?-1:1); }
+  ctx.drawImage(tinted(L,w,h), -w/2, -h/2, w, h);
+  ctx.restore();
+}
+function pill(txt,x,y,k,align){
+  ctx.font=`600 ${13*k}px Jost, sans-serif`; const tw=ctx.measureText(txt).width, pw=tw+20*k, ph=26*k;
+  const px = align==='right' ? x-pw : x;
+  ctx.fillStyle='rgba(31,35,29,.82)'; ctx.beginPath(); ctx.roundRect ? ctx.roundRect(px,y,pw,ph,ph/2) : ctx.rect(px,y,pw,ph); ctx.fill();
+  ctx.fillStyle='#f5f0e7'; ctx.textBaseline='middle'; ctx.fillText(txt,px+10*k,y+ph/2);
+}
+function drawDivider(){
+  const k=scaleK(), x=split*room.w;
+  ctx.save();
+  ctx.strokeStyle='#fff'; ctx.lineWidth=3*k; ctx.shadowColor='rgba(0,0,0,.35)'; ctx.shadowBlur=6*k;
+  ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,room.h); ctx.stroke();
+  ctx.fillStyle='#b8924a'; ctx.beginPath(); ctx.arc(x,room.h/2,18*k,0,Math.PI*2); ctx.fill(); ctx.stroke();
+  ctx.shadowBlur=0; ctx.fillStyle='#fff'; ctx.font=`600 ${14*k}px Jost, sans-serif`; ctx.textAlign='center'; ctx.textBaseline='middle';
+  ctx.fillText('◀ ▶',x,room.h/2+1*k); ctx.textAlign='left';
+  pill('ANTES',12*k,12*k,k); pill('DESPUÉS',room.w-12*k,12*k,k,'right');
+  ctx.restore();
+}
+function drawHz(){
+  const k=scaleK(), y=scene.hz*room.h;
+  ctx.save(); ctx.strokeStyle='rgba(184,146,74,.95)'; ctx.lineWidth=2*k; ctx.setLineDash([10*k,8*k]);
+  ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(room.w,y); ctx.stroke(); ctx.setLineDash([]);
+  pill('Horizonte: altura de tus ojos al hacer la foto',12*k,y-34*k,k); ctx.restore();
+}
+function drawSel(){
+  const {w,h,cx,cy}=geom(selected), k=scaleK(), R=(coarse?14:10)*k;
+  ctx.save(); ctx.translate(cx,cy); ctx.rotate(selected.rot*Math.PI/180);
+  ctx.strokeStyle='#b8924a'; ctx.lineWidth=2*k; ctx.setLineDash([8*k,6*k]);
+  ctx.strokeRect(-w/2,-h/2,w,h); ctx.setLineDash([]);
+  // asa de giro
+  const ry=-h/2-32*k;
+  ctx.beginPath(); ctx.moveTo(0,-h/2); ctx.lineTo(0,ry); ctx.stroke();
+  ctx.fillStyle='#fff'; ctx.strokeStyle='#b8924a'; ctx.lineWidth=2.5*k;
+  ctx.beginPath(); ctx.arc(0,ry,R,0,Math.PI*2); ctx.fill(); ctx.stroke();
+  ctx.fillStyle='#b8924a'; ctx.font=`600 ${R*1.3}px Jost, sans-serif`; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText('⟳',0,ry+R*0.05);
+  // asa de tamaño
+  ctx.fillStyle='#b8924a'; ctx.strokeStyle='#fff';
+  ctx.beginPath(); ctx.arc(w/2,h/2,R,0,Math.PI*2); ctx.fill(); ctx.stroke();
+  ctx.restore();
+}
+function draw(withUI=true){
+  if(!room) return;
+  ctx.setTransform(1,0,0,1,0,0); ctx.clearRect(0,0,cv.width,cv.height);
+  ctx.drawImage(room.img,0,0,room.w,room.h);
+  if(compare && withUI){
+    ctx.save(); ctx.beginPath(); ctx.rect(split*room.w,0,room.w,room.h); ctx.clip(); layers.forEach(drawPiece); ctx.restore();
+    drawDivider();
+  } else {
+    layers.forEach(drawPiece);
+    if(withUI){ if(showHz) drawHz(); if(selected && layers.includes(selected)) drawSel(); }
+  }
+  $('#btnClear').disabled = !layers.length;
+  if(withUI) placeTools();
+}
+window.addEventListener('resize',()=>draw());
+
+/* Barra flotante */
+function placeTools(){
+  const t=$('#ptools');
+  if(!selected || compare || drag || !layers.includes(selected)){ t.style.display='none'; return; }
+  const {w,h,cx,cy}=geom(selected);
+  const r=cv.getBoundingClientRect(), wr=wrap.getBoundingClientRect(), s=r.width/cv.width;
+  const ext = Math.max(Math.abs(Math.cos(selected.rot*Math.PI/180))*h, h*0.7)/2;
+  let top=(cy-ext)*s + (r.top-wr.top) - 32 - 46;
+  if(top<6) top=Math.min((cy+ext)*s + (r.top-wr.top) + 16, wr.height-48);
+  t.style.display='flex';
+  const half=t.offsetWidth/2+6;
+  const left=clamp(cx*s + (r.left-wr.left), half, Math.max(half, wr.width-half));
+  t.style.top=top+'px'; t.style.left=left+'px';
+}
+$('#ptools').addEventListener('click',e=>{ const b=e.target.closest('[data-a]'); if(b) doAction(b.dataset.a); });
+
+/* ============ Interacción ============ */
+function toCanvas(e){ const r=cv.getBoundingClientRect(); return {x:(e.clientX-r.left)*cv.width/r.width, y:(e.clientY-r.top)*cv.height/r.height}; }
+function local(L,pt){ const {cx,cy}=geom(L); const a=-L.rot*Math.PI/180, dx=pt.x-cx, dy=pt.y-cy; return {x:dx*Math.cos(a)-dy*Math.sin(a), y:dx*Math.sin(a)+dy*Math.cos(a)}; }
+function hit(pt){ for(let i=layers.length-1;i>=0;i--){ const L=layers[i], q=local(L,pt), {w,h}=geom(L); if(Math.abs(q.x)<=w/2&&Math.abs(q.y)<=h/2) return L; } return null; }
+const hR = () => (coarse?28:18)*scaleK();
+function onScaleH(L,pt){ const q=local(L,pt), {w,h}=geom(L); return Math.hypot(q.x-w/2,q.y-h/2) < hR(); }
+function onRotH(L,pt){ const q=local(L,pt), {h}=geom(L); return Math.hypot(q.x, q.y-(-h/2-32*scaleK())) < hR(); }
+const depthPiece = L => scene.autoDepth && (L.p.tipo==='suelo'||L.p.tipo==='alfombra');
+
+const pointers = new Map();
+cv.addEventListener('pointerdown',e=>{
+  coarse = e.pointerType!=='mouse';
+  cv.setPointerCapture(e.pointerId); const pt=toCanvas(e); pointers.set(e.pointerId,pt);
+  if(compare){ split=clamp(pt.x/cv.width,.02,.98); drag={mode:'split'}; draw(); return; }
+  if(pointers.size===2 && selected){ const [a,b]=[...pointers.values()]; drag={mode:'pinch', d0:Math.hypot(a.x-b.x,a.y-b.y), h0:selected.h, L:selected}; return; }
+  if(selected && onRotH(selected,pt)){ drag={mode:'rot', L:selected}; }
+  else if(selected && onScaleH(selected,pt)){ const g=geom(selected); const ax=selected.x, ay=selected.y-g.h/2; drag={mode:'scale', L:selected, ax, ay, d0:Math.max(1,Math.hypot(pt.x-ax,pt.y-ay)), h0:selected.h}; }
+  else {
+    const L=hit(pt);
+    if(L){ selected=L; drag={mode:'move', L, dx:pt.x-L.x, dy:pt.y-L.y}; }
+    else { selected=null; drag=null; }
+    renderSel();
+  }
+  draw();
+});
+cv.addEventListener('pointermove',e=>{
+  const pt=toCanvas(e);
+  if(pointers.has(e.pointerId)) pointers.set(e.pointerId,pt);
+  if(!drag){
+    cv.style.cursor = compare ? 'ew-resize' : selected&&onRotH(selected,pt) ? 'grab' : selected&&onScaleH(selected,pt) ? 'nwse-resize' : (hit(pt)?'move':'default');
+    return;
+  }
+  const L=drag.L;
+  if(drag.mode==='split'){ split=clamp(pt.x/cv.width,.02,.98); }
+  else if(drag.mode==='move'){
+    const ny=pt.y-drag.dy, hz=scene.hz*room.h;
+    if(depthPiece(L) && L.y>hz+8 && ny>hz+8) L.h=Math.max(20, L.h*(ny-hz)/(L.y-hz));
+    L.x=pt.x-drag.dx; L.y=ny;
+  }
+  else if(drag.mode==='scale'){ L.h=Math.max(20, drag.h0*Math.hypot(pt.x-drag.ax, pt.y-drag.ay)/drag.d0); }
+  else if(drag.mode==='rot'){
+    const {cx,cy}=geom(L); let a=Math.atan2(pt.y-cy,pt.x-cx)*180/Math.PI+90;
+    if(a>180) a-=360; if(Math.abs(a)<4) a=0; L.rot=Math.round(a);
+  }
+  else if(drag.mode==='pinch' && pointers.size===2){ const [a,b]=[...pointers.values()]; L.h=Math.max(20, drag.h0*Math.hypot(a.x-b.x,a.y-b.y)/drag.d0); }
+  drag.changed=true;
+  draw(); syncSel();
+});
+function endPtr(e){
+  pointers.delete(e.pointerId);
+  if(drag && drag.mode==='pinch' && pointers.size<2){ drag=null; commit(); }
+  if(!pointers.size && drag){ const ch=drag.changed && drag.mode!=='split'; drag=null; if(ch) commit(); }
+  draw();
+}
+cv.addEventListener('pointerup',endPtr); cv.addEventListener('pointercancel',endPtr);
+cv.addEventListener('wheel',e=>{ if(!selected||compare) return; e.preventDefault(); selected.h=Math.max(20, selected.h*(e.deltaY<0?1.06:0.94)); draw(); syncSel(); commitSoon(); },{passive:false});
+document.addEventListener('keydown',e=>{
+  if(/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)) return;
+  const mod=e.ctrlKey||e.metaKey;
+  if(mod && e.key.toLowerCase()==='z'){ e.preventDefault(); goHist(e.shiftKey?1:-1); return; }
+  if(mod && e.key.toLowerCase()==='y'){ e.preventDefault(); goHist(1); return; }
+  if(e.key==='Escape'){ document.querySelectorAll('.modal.show').forEach(m=>m.classList.remove('show')); return; }
+  if(!selected) return;
+  const s=e.shiftKey?10:2;
+  if(e.key==='Delete'||e.key==='Backspace'){ removeSel(); e.preventDefault(); return; }
+  else if(e.key==='ArrowLeft'){selected.x-=s;} else if(e.key==='ArrowRight'){selected.x+=s;}
+  else if(e.key==='ArrowUp'){selected.y-=s;} else if(e.key==='ArrowDown'){selected.y+=s;} else return;
+  e.preventDefault(); draw(); commitSoon();
+});
+
+/* Antes / después */
+$('#btnCompare').addEventListener('click',()=>{
+  if(!layers.length && !compare){ toast('Añade alguna pieza para comparar'); return; }
+  compare=!compare; split=.5; $('#btnCompare').classList.toggle('on',compare);
+  if(compare) toast('Desliza la línea para comparar');
+  draw();
+});
+
+/* ============ Panel de pieza seleccionada ============ */
+function renderSel(){
+  const box=$('#selBox');
+  if(!selected){ box.innerHTML='<p class="sel-empty">Toca una pieza en la foto para ajustarla.</p>'; return; }
+  const L=selected;
+  box.innerHTML=`
+    <div style="font-weight:600;margin-bottom:2px">${esc(L.p.nombre)} ${L.p.unico?'<span class="badge">única</span>':''}</div>
+    <div class="note" style="margin:0 0 6px">${L.p.ancho}×${L.p.alto} cm · ${L.p.precio?fmt(L.p.precio):'pieza propia'}</div>
+    <div class="ctrl"><span>Tamaño</span><input type="range" id="sSize" min="20" max="${Math.round(room.h*1.2)}" value="${Math.round(L.h)}"><output id="oSize"></output></div>
+    <div class="ctrl"><span>Giro</span><input type="range" data-p="rot" min="-180" max="180" value="${L.rot}"><output>${L.rot}°</output></div>
+    ${L.p.tipo==='alfombra'?`<div class="ctrl"><span>Profundidad</span><input type="range" data-p="sy" data-pct min="40" max="150" value="${Math.round(L.sy*100)}"><output>${Math.round(L.sy*100)}%</output></div>`:''}
+    <div class="ctrl"><span>Luz</span><input type="range" data-p="bright" min="-60" max="60" value="${L.bright}"><output>${L.bright}</output></div>
+    <div class="ctrl"><span>Calidez</span><input type="range" data-p="warm" min="-60" max="60" value="${L.warm}"><output>${L.warm}</output></div>
+    <div class="ctrl"><span>Sombra</span><input type="range" data-p="shadow" min="0" max="100" value="${L.shadow}"><output>${L.shadow}</output></div>
+    <div class="actions">
+      <button class="btn sm" data-a="flip">⇋ Voltear</button>
+      <button class="btn sm" data-a="front">Traer delante</button>
+      <button class="btn sm" data-a="back">Enviar atrás</button>
+      <button class="btn sm" data-a="dup">Duplicar</button>
+      <button class="btn sm" data-a="all">Luz a todas</button>
+      <button class="btn sm" data-a="info">Ver ficha</button>
+      <button class="btn sm" data-a="del" style="color:#a3392f">Quitar</button>
+    </div>`;
+  syncSel();
+  box.querySelector('#sSize').addEventListener('input',e=>{L.h=+e.target.value; draw(); syncSel();});
+  box.querySelectorAll('[data-p]').forEach(inp=>inp.addEventListener('input',e=>{
+    const pr=inp.dataset.p, v=+inp.value;
+    L[pr] = inp.hasAttribute('data-pct') ? v/100 : v;
+    inp.nextElementSibling.textContent = v + (pr==='rot'?'°':inp.hasAttribute('data-pct')?'%':'');
+    draw();
+  }));
+}
+$('#selBox').addEventListener('change',e=>{ if(e.target.type==='range') commit(); });
+function syncSel(){
+  if(!selected) return; const s=$('#sSize'); if(!s) return;
+  s.value=Math.round(selected.h);
+  $('#oSize').textContent = Math.round(selected.h/(selected.p.alto*pxPerCm())*100)+'%';
+  const r=$('#selBox [data-p="rot"]'); if(r){ r.value=selected.rot; r.nextElementSibling.textContent=selected.rot+'°'; }
+}
+function doAction(a){
+  if(!selected) return; const L=selected, i=layers.indexOf(L);
+  switch(a){
+    case 'flip': L.flip=!L.flip; break;
+    case 'front': layers.splice(i,1); layers.push(L); break;
+    case 'back': layers.splice(i,1); layers.unshift(L); break;
+    case 'dup': { const c={...L, uid:uidN++, x:L.x+L.h*L.ar*0.35, _c:null, _key:null}; layers.push(c); selected=c; renderSel(); renderSum(); break; }
+    case 'all': layers.forEach(o=>{o.bright=L.bright;o.warm=L.warm;}); toast('Luz aplicada a todas las piezas'); break;
+    case 'info': openFicha(L.p.id); return;
+    case 'del': removeSel(); return;
+  }
+  draw(); commit();
+}
+$('#selBox').addEventListener('click',e=>{ const b=e.target.closest('[data-a]'); if(b) doAction(b.dataset.a); });
+function removeSel(){ layers=layers.filter(l=>l!==selected); selected=null; draw(); renderSel(); renderSum(); commit(); }
+$('#btnClear').addEventListener('click',()=>{ layers=[]; selected=null; compare=false; $('#btnCompare').classList.remove('on'); draw(); renderSel(); renderSum(); commit(); toast('Piezas retiradas · puedes deshacerlo con ↶'); });
+
+/* ============ Escena (luz y perspectiva) ============ */
+function syncScene(){
+  $('#sLight').value=Math.round(scene.lightX*100); $('#sHz').value=Math.round(scene.hz*100); $('#cDepth').checked=!!scene.autoDepth;
+  const lx=scene.lightX; $('#oLight').textContent = Math.abs(lx)<.15?'arriba':lx<0?'izq.':'dcha.';
+  $('#oHz').textContent = Math.round(scene.hz*100)+'%';
+}
+$('#sLight').addEventListener('input',e=>{ scene.lightX=+e.target.value/100; syncScene(); draw(); });
+$('#sHz').addEventListener('input',e=>{ scene.hz=+e.target.value/100; syncScene(); showHz=true; clearTimeout(hzT); hzT=setTimeout(()=>{showHz=false;draw();},1800); draw(); });
+$('#cDepth').addEventListener('change',e=>{ scene.autoDepth=e.target.checked; save(); });
+['#sLight','#sHz'].forEach(s=>$(s).addEventListener('change',save));
+
+/* ============ Resumen / presupuesto ============ */
+function selectionText(total){
+  return 'Hola Ecléctico 👋 He montado mi estancia con vuestro probador y me interesan estas piezas:\n'
+    + layers.filter(l=>l.p.precio).map(l=>`• ${l.p.nombre} (${fmt(l.p.precio)})`).join('\n')
+    + `\n\nTotal orientativo: ${fmt(total)}\nOs adjunto la imagen del montaje. ¿Me preparáis un presupuesto con transporte y montaje?`;
+}
+function renderSum(){
+  const box=$('#sumBox');
+  if(!layers.length){ box.innerHTML='<p class="sel-empty">Aún no has añadido piezas.</p>'; return; }
+  const total=layers.reduce((s,l)=>s+(l.p.precio||0),0);
+  const unicas=layers.filter(l=>l.p.unico).map(l=>l.p.nombre);
+  const txt=selectionText(total);
+  box.innerHTML=`<ul>${layers.slice().reverse().map(l=>`<li><span>${esc(l.p.nombre)} ${l.p.unico?'<em class="badge">única</em>':''}</span><span class="p">${l.p.precio?fmt(l.p.precio):'—'}<button class="x" data-rm="${l.uid}" title="Quitar" aria-label="Quitar ${esc(l.p.nombre)}">×</button></span></li>`).join('')}</ul>
+    <div class="tot"><span>Total orientativo</span><span>${fmt(total)}</span></div>
+    ${unicas.length?`<div class="urgent">⏳ ${unicas.length===1?'Hay una pieza única':'Hay '+unicas.length+' piezas únicas'} en tu selección. Solo tenemos una de cada: pídenos que te ${unicas.length===1?'la':'las'} apartemos.</div>`:''}
+    <div class="actions">
+      ${total?`<a class="btn wa" href="${waLink(txt)}" target="_blank" rel="noopener">💬 Pedir presupuesto por WhatsApp</a>`:''}
+      <button class="btn sm" id="btnQuote">Copiar selección</button>
+    </div>
+    <p class="note">Consejo: pulsa <b>Guardar imagen</b> y adjúntala en el chat para que veamos tu montaje. Te preparamos presupuesto con transporte y montaje.</p>`;
+  $('#btnQuote').addEventListener('click',()=>copy(txt,'Selección copiada'));
+}
+$('#sumBox').addEventListener('click',e=>{
+  const b=e.target.closest('[data-rm]'); if(!b) return;
+  const L=layers.find(l=>String(l.uid)===b.dataset.rm); if(!L) return;
+  if(selected===L) selected=null; layers=layers.filter(l=>l!==L); draw(); renderSel(); renderSum(); commit();
+});
+async function copy(txt,msg){ try{ await navigator.clipboard.writeText(txt); toast(msg); }catch(e){ toast('No se pudo copiar automáticamente'); } }
+$('#btnCopyPrompt').addEventListener('click',()=>copy($('#promptText').textContent,'Texto copiado'));
+
+/* ============ Pieza propia ============ */
+$('#ownFile').addEventListener('change',async e=>{
+  const f=e.target.files[0]; e.target.value=''; if(!f) return;
+  const src=await loadImg(URL.createObjectURL(f));
+  const k=Math.min(1,700/Math.max(src.naturalWidth,src.naturalHeight));
+  const c=document.createElement('canvas'); c.width=Math.round(src.naturalWidth*k); c.height=Math.round(src.naturalHeight*k);
+  const g=c.getContext('2d'); g.drawImage(src,0,0,c.width,c.height);
+  removeLightBg(g,c.width,c.height);
+  const url=c.toDataURL('image/png'); const img=await loadImg(url);
+  const id='propia'+Date.now();
+  CATALOG.push({id, nombre:'Mi pieza '+(CATALOG.filter(p=>p.cat==='Mis piezas').length+1), cat:'Mis piezas', tipo:'suelo', ancho:80, alto:Math.round(80*c.height/c.width), precio:0, img, thumb:url,
+    desc:'Pieza que has subido tú desde una foto.', material:'—', epoca:'—'});
+  if(!CATS.includes('Mis piezas')) CATS.push('Mis piezas');
+  curCat='Mis piezas'; renderTabs(); renderCatalog();
+  if(room) addPiece(id); else toast('Pieza añadida al catálogo');
+});
+// Quita el fondo claro conectado con los bordes (relleno por inundación)
+function removeLightBg(g,w,h){
+  const d=g.getImageData(0,0,w,h), px=d.data, seen=new Uint8Array(w*h), st=[];
+  const light=i=>{const r=px[i*4],gg=px[i*4+1],b=px[i*4+2];const mx=Math.max(r,gg,b),mn=Math.min(r,gg,b);return mx>222 && mx-mn<28;};
+  for(let x=0;x<w;x++){st.push(x,(h-1)*w+x);} for(let y=0;y<h;y++){st.push(y*w,y*w+w-1);}
+  let cleared=0;
+  while(st.length){const i=st.pop(); if(seen[i])continue; seen[i]=1; if(!light(i))continue; px[i*4+3]=0; cleared++;
+    const x=i%w,y=(i/w)|0; if(x>0)st.push(i-1); if(x<w-1)st.push(i+1); if(y>0)st.push(i-w); if(y<h-1)st.push(i+w);}
+  if(cleared>w*h*0.05) g.putImageData(d,0,0);
+}
+
+/* ============ Exportar ============ */
+let downloads=null;
+$('#btnExport').addEventListener('click',async()=>{
+  draw(false);
+  let blob=null, url='';
+  try{ blob = await new Promise(r=>cv.toBlob(r,'image/png')); url = cv.toDataURL('image/jpeg',0.92); }catch(e){}
+  draw(true);
+  if(!url){ toast('No se pudo crear la imagen'); return; }
+  if(downloads && blob){ try{ await downloads.save({filename:'eclectico-mi-estancia.png', data:blob}); toast('Imagen guardada'); return; }catch(e){ /* sigue a la vista previa */ } }
+  $('#modalImg').src=url; $('#modal').classList.add('show');
+});
+
+/* ============ IA ============ */
+let sample=null, sampleImages=false;
+function applyAIAvail(){
+  const note=$('#aiNote');
+  if(!sample){ $('#btnPlace').disabled=true; $('#btnSuggest').disabled=true; note.textContent = 'El decorador IA está disponible en la versión con Claude; aquí puedes colocar las piezas a mano.'; return; }
+  note.textContent = sampleImages ? '' : 'La IA no puede ver imágenes en esta vista; colocará las piezas con reglas generales.';
+  const ok=!!room; $('#btnPlace').disabled=!ok; $('#btnSuggest').disabled=!ok;
+}
+async function roomBlob(){
+  const k=Math.min(1,1024/Math.max(room.w,room.h)); const c=document.createElement('canvas'); c.width=Math.round(room.w*k); c.height=Math.round(room.h*k);
+  c.getContext('2d').drawImage(room.img,0,0,c.width,c.height);
+  return new Promise(r=>c.toBlob(r,'image/jpeg',0.85));
+}
+function parseJSON(t){ const m=t.match(/\{[\s\S]*\}/); if(!m) throw new Error('sin JSON'); return JSON.parse(m[0]); }
+const BRAND = 'Eres el decorador de Ecléctico, una tienda de muebles, decoración y antigüedades en Elda (Alicante). Filosofía: combinar estilos, épocas y materiales; piezas antiguas con diseño contemporáneo; "no buscamos espacios perfectos, buscamos espacios con alma". Tono: cercano, cálido y elegante, en español de España.';
+async function askAI(prompt){
+  const opts={modelTier:'default'};
+  if(sampleImages) opts.images=[await roomBlob()];
+  const r=await sample(prompt,opts); return parseJSON(r.text);
+}
+function busy(btn,on,label){ btn.disabled=on; btn.innerHTML = on?`<span class="spin"></span> ${label}`:btn.dataset.l; }
+$('#btnPlace').dataset.l=$('#btnPlace').innerHTML; $('#btnSuggest').dataset.l=$('#btnSuggest').innerHTML;
+
+$('#btnPlace').addEventListener('click',async()=>{
+  if(!layers.length){ toast('Añade primero alguna pieza del catálogo'); return; }
+  const btn=$('#btnPlace'); busy(btn,true,'Mirando tu estancia…');
+  const piezas = layers.map(l=>({id:String(l.uid), nombre:l.p.nombre, tipo:TIPO_TXT[l.p.tipo], ancho_cm:l.p.ancho, alto_cm:l.p.alto}));
+  const prompt = `${BRAND}
+
+${sampleImages?'Mira la foto adjunta de la estancia del cliente.':'No puedes ver la foto; supón una estancia estándar fotografiada de frente, con el suelo ocupando el tercio inferior.'} La imagen mide ${room.w}×${room.h} px. Hay que colocar estas piezas de forma realista:
+${JSON.stringify(piezas)}
+
+Coordenadas normalizadas de 0 a 1 sobre la imagen ((0,0) es la esquina superior izquierda). Para cada pieza devuelve:
+- x: centro horizontal de la pieza.
+- base: posición vertical del borde inferior de la pieza (donde apoya en el suelo; si es de pared, el borde inferior del objeto colgado a una altura natural; si es de techo, el borde inferior de la lámpara colgada; si es alfombra, su borde más cercano a la cámara; si va sobre un mueble, la superficie de ese mueble).
+- altura: altura aparente de la pieza como fracción de la altura de la imagen, respetando su tamaño real en cm y la perspectiva. Usa referencias de la foto (puertas ≈ 205 cm, enchufes ≈ 30 cm, rodapiés, ventanas, techo ≈ 260 cm). Las piezas más al fondo se ven más pequeñas y más arriba.
+Evita tapar puertas y ventanas y que las piezas se solapen de forma poco natural; crea una composición equilibrada como lo haría un interiorista.
+Estima también:
+- la luz de la estancia para igualar las piezas: brillo de -50 (estancia oscura) a 50 (muy luminosa) y calidez de -50 (luz fría) a 50 (luz cálida);
+- luz_x: de dónde viene la luz principal, de -1 (desde la izquierda) a 1 (desde la derecha), 0 si es cenital o frontal;
+- horizonte: línea del horizonte de la foto (altura de la cámara), de 0 a 1 en vertical.
+
+Responde SOLO con JSON válido, sin texto fuera:
+{"piezas":[{"id":"...","x":0.5,"base":0.85,"altura":0.25}],"brillo":0,"calidez":0,"luz_x":0,"horizonte":0.45,"consejo":"2 o 3 frases explicando la composición"}`;
+  try{
+    const r = await askAI(prompt);
+    (r.piezas||[]).forEach(q=>{ const L=layers.find(l=>String(l.uid)===String(q.id)); if(!L) return;
+      if(isFinite(q.altura)&&q.altura>0) L.h=Math.min(1.2,q.altura)*room.h;
+      if(isFinite(q.x)) L.x=q.x*room.w; if(isFinite(q.base)) L.y=q.base*room.h;
+      if(isFinite(r.brillo)) L.bright=clamp(Math.round(r.brillo),-60,60);
+      if(isFinite(r.calidez)) L.warm=clamp(Math.round(r.calidez),-60,60);
+    });
+    if(isFinite(r.luz_x)) scene.lightX=clamp(+r.luz_x,-1,1);
+    if(isFinite(r.horizonte)) scene.hz=clamp(+r.horizonte,.15,.85);
+    syncScene(); draw(); renderSel(); commit();
+    showAI(`<div class="quote">${esc(r.consejo||'Listo, he colocado tus piezas.')}</div><p class="note">Puedes seguir ajustando cada pieza a mano, o deshacer con ↶.</p>`);
+  }catch(e){ handleAIErr(e); }
+  busy(btn,false);
+});
+
+$('#btnSuggest').addEventListener('click',async()=>{
+  const btn=$('#btnSuggest'); busy(btn,true,'Pensando…');
+  const cat = CATALOG.filter(p=>p.precio).map(p=>({id:p.id, nombre:p.nombre, categoria:p.cat, medidas:`${p.ancho}×${p.alto} cm`, precio:p.precio, epoca:p.epoca, material:p.material, pieza_unica:!!p.unico}));
+  const prompt = `${BRAND}
+
+${sampleImages?'Mira la foto adjunta de la estancia del cliente.':'No puedes ver la foto; da recomendaciones generales para un salón.'} Este es nuestro catálogo:
+${JSON.stringify(cat)}
+
+Describe en una frase el estilo y la luz de la estancia y recomienda de 3 a 4 piezas del catálogo que le darían personalidad (mezclando alguna antigüedad con algo actual), explicando por qué en una frase cada una.
+Responde SOLO con JSON válido: {"estilo":"...","recomendadas":[{"id":"...","motivo":"..."}],"consejo":"un consejo final de decoración"}`;
+  try{
+    const r = await askAI(prompt);
+    const recs=(r.recomendadas||[]).map(q=>({q,p:CATALOG.find(p=>p.id===q.id)})).filter(x=>x.p);
+    showAI(`<p style="margin:0 0 6px"><b>Tu estancia:</b> ${esc(r.estilo||'')}</p>
+      ${recs.map(({q,p})=>`<div class="rec"><img src="${thumbOf(p)}" alt=""><div class="t"><b>${esc(p.nombre)} · ${fmt(p.precio)}</b>${esc(q.motivo||'')}</div><button class="btn sm" data-add="${p.id}">Añadir</button></div>`).join('')}
+      ${r.consejo?`<div class="quote" style="margin-top:12px">${esc(r.consejo)}</div>`:''}`);
+  }catch(e){ handleAIErr(e); }
+  busy(btn,false);
+});
+$('#aiOut').addEventListener('click',e=>{ const b=e.target.closest('[data-add]'); if(b) addPiece(b.dataset.add); });
+function showAI(html){ const o=$('#aiOut'); o.innerHTML=html; o.classList.add('show'); }
+function handleAIErr(e){
+  const c=e&&e.code;
+  if(c==='not_granted') showAI('<p class="note">Has preferido no activar la IA. Puedes seguir colocando las piezas a mano.</p>');
+  else if(c==='rate_limited') showAI('<p class="note">La IA está muy solicitada ahora mismo. Inténtalo de nuevo en un momento.</p>');
+  else showAI('<p class="note">No he podido completar la sugerencia esta vez. Prueba otra vez o ajusta las piezas a mano.</p>');
+}
+
+/* ============ Arranque ============ */
+function renderHint(){
+  $('#hint').innerHTML = coarse
+    ? '<span>☝ Arrastra para mover</span><span>🤏 Pellizca para cambiar el tamaño</span><span>⟳ Círculo de arriba para girar</span><span>Toca fuera para soltar la pieza</span>'
+    : '<span>🖱 Arrastra para mover</span><span>↘ Esquina dorada: tamaño</span><span>⟳ Círculo de arriba: girar</span><span>⚙ Rueda: escalar</span><span>Ctrl+Z deshacer</span><span>⌫ Supr para quitar</span>';
+}
+document.querySelectorAll('.maps-link').forEach(a=>a.href=MAPS);
+$('#waVisit').href = waLink('Hola Ecléctico 👋 He estado mirando vuestro catálogo online y me gustaría pasar por la tienda a ver algunas piezas. ¿Cuándo os viene bien?');
+renderHint(); renderTabs(); renderCatalog(); syncScene(); applyAIAvail(); updUndo();
+(async()=>{
+  await restore();
+  try{
+    if(window.claude && claude.use){
+      const [s,d] = await Promise.all([claude.use('sample'), claude.use('downloads')]);
+      downloads=d||null; sample=s||null;
+      if(sample){ try{ const lim=await sample.limits(); sampleImages=!!(lim&&lim.images); }catch(e){ sampleImages=false; } }
+    }
+  }catch(e){}
+  applyAIAvail();
+})();
+</script>
+</body>
+</html>
