@@ -3,17 +3,29 @@
 const path = require('path');
 const express = require('express');
 const { enviarSolicitud } = require('./lib/contacto');
+const { preguntarIA, iaDisponible } = require('./lib/ia');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(express.json({ limit: '100kb' }));
+app.use(express.json({ limit: '4mb' }));
 app.use(express.static(path.join(__dirname, 'public'), { extensions: ['html'] }));
 
 app.post('/api/contacto', async (req, res) => {
   try {
     const r = await enviarSolicitud(req.body || {});
     res.status(r.status).json(r.ok ? { ok: true } : { error: r.error });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Error inesperado' });
+  }
+});
+
+app.get('/api/ia', (req, res) => res.json({ disponible: iaDisponible() }));
+app.post('/api/ia', async (req, res) => {
+  try {
+    const r = await preguntarIA(req.body || {});
+    res.status(r.status).json(r.ok ? { text: r.text } : { error: r.error });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Error inesperado' });

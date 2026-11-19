@@ -1157,7 +1157,7 @@ $('#btnExport').addEventListener('click',async()=>{
 let sample=null, sampleImages=false;
 function applyAIAvail(){
   const note=$('#aiNote');
-  if(!sample){ $('#btnPlace').disabled=true; $('#btnSuggest').disabled=true; note.textContent = 'El decorador IA está disponible en la versión con Claude; aquí puedes colocar las piezas a mano.'; return; }
+  if(!sample){ $('#btnPlace').disabled=true; $('#btnSuggest').disabled=true; note.textContent = 'El decorador IA no está disponible ahora mismo; puedes colocar las piezas a mano.'; return; }
   note.textContent = sampleImages ? '' : 'La IA no puede ver imágenes en esta vista; colocará las piezas con reglas generales.';
   const ok=!!room; $('#btnPlace').disabled=!ok; $('#btnSuggest').disabled=!ok;
 }
@@ -1172,6 +1172,16 @@ async function askAI(prompt){
   const opts={modelTier:'default'};
   if(sampleImages) opts.images=[await roomBlob()];
   const r=await sample(prompt,opts); return parseJSON(r.text);
+}
+// Decorador IA de la web publicada: usa /api/ia (Gemini) cuando no estamos dentro de Claude
+function blobToDataURL(b){ return new Promise((ok,ko)=>{ const f=new FileReader(); f.onload=()=>ok(f.result); f.onerror=ko; f.readAsDataURL(b); }); }
+async function webSample(prompt,opts){
+  const body={prompt};
+  if(opts&&opts.images&&opts.images[0]) body.imagen=await blobToDataURL(opts.images[0]);
+  const r=await fetch('/api/ia',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+  const j=await r.json().catch(()=>({}));
+  if(!r.ok){ const e=new Error(j.error||'error'); if(r.status===429) e.code='rate_limited'; throw e; }
+  return {text:j.text};
 }
 function busy(btn,on,label){ btn.disabled=on; btn.innerHTML = on?`<span class="spin"></span> ${label}`:btn.dataset.l; }
 $('#btnPlace').dataset.l=$('#btnPlace').innerHTML; $('#btnSuggest').dataset.l=$('#btnSuggest').innerHTML;
@@ -1259,6 +1269,9 @@ renderHint(); renderTabs(); renderCatalog(); syncScene(); applyAIAvail(); updUnd
       if(sample){ try{ const lim=await sample.limits(); sampleImages=!!(lim&&lim.images); }catch(e){ sampleImages=false; } }
     }
   }catch(e){}
+  if(!sample){
+    try{ const r=await fetch('/api/ia'); const j=await r.json(); if(j&&j.disponible){ sample=webSample; sampleImages=true; } }catch(e){}
+  }
   applyAIAvail();
 })();
 </script>

@@ -26,6 +26,13 @@ El formulario envía los datos a `POST /api/contacto`, que los reenvía al webho
 Para que funcione en Vercel, añade la variable de entorno `MAKE_WEBHOOK_URL`
 en *Project → Settings → Environment Variables*.
 
+## Decorador IA del probador
+
+Los botones «Colocar con IA» y «¿Qué le va a mi estancia?» llaman a `/api/ia`
+(`api/ia.js` + `lib/ia.js`), que pregunta a Google Gemini con la foto de la estancia.
+Para activarlo, crea una clave gratis en https://aistudio.google.com/apikey y añádela en Vercel
+como variable de entorno `GEMINI_API_KEY`. Sin clave, el probador funciona a mano.
+
 ## Despliegue
 
 Cada `git push` a `main` se publica automáticamente en Vercel.
