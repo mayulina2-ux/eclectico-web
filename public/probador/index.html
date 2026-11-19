@@ -1154,10 +1154,10 @@ $('#btnExport').addEventListener('click',async()=>{
 });
 
 /* ============ IA ============ */
-let sample=null, sampleImages=false;
+let sample=null, sampleImages=false, aiChecking=true;
 function applyAIAvail(){
   const note=$('#aiNote');
-  if(!sample){ $('#btnPlace').disabled=true; $('#btnSuggest').disabled=true; note.textContent = 'El decorador IA no está disponible ahora mismo; puedes colocar las piezas a mano.'; return; }
+  if(!sample){ $('#btnPlace').disabled=true; $('#btnSuggest').disabled=true; note.textContent = aiChecking ? 'Conectando con el decorador IA…' : 'El decorador IA no está disponible ahora mismo; puedes colocar las piezas a mano.'; return; }
   note.textContent = sampleImages ? '' : 'La IA no puede ver imágenes en esta vista; colocará las piezas con reglas generales.';
   const ok=!!room; $('#btnPlace').disabled=!ok; $('#btnSuggest').disabled=!ok;
 }
@@ -1272,6 +1272,7 @@ renderHint(); renderTabs(); renderCatalog(); syncScene(); applyAIAvail(); updUnd
   if(!sample){
     try{ const r=await fetch('/api/ia'); const j=await r.json(); if(j&&j.disponible){ sample=webSample; sampleImages=true; } }catch(e){}
   }
+  aiChecking=false;
   applyAIAvail();
 })();
 </script>
