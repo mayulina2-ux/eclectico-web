@@ -1,6 +1,8 @@
 // Servidor local para desarrollo: sirve la web y el formulario igual que Vercel.
 // Uso: npm install && npm start  →  http://localhost:3000
 const path = require('path');
+// Lee el archivo .env si existe (GEMINI_API_KEY, MAKE_WEBHOOK_URL) para probar en local.
+try { process.loadEnvFile(path.join(__dirname, '.env')); } catch (e) { /* sin .env */ }
 const express = require('express');
 const { enviarSolicitud } = require('./lib/contacto');
 const { preguntarIA, iaDisponible } = require('./lib/ia');
