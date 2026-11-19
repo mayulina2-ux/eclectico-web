@@ -33,6 +33,10 @@ Los botones «Colocar con IA» y «¿Qué le va a mi estancia?» llaman a `/api/
 Para activarlo, crea una clave gratis en https://aistudio.google.com/apikey y añádela en Vercel
 como variable de entorno `GEMINI_API_KEY`. Sin clave, el probador funciona a mano.
 
+El botón «Convertir en foto realista» llama a `/api/realista` (`lib/realista.js`), que manda el
+montaje a un modelo de imagen de Gemini con la misma clave. `GET /api/realista` muestra qué modelos
+de imagen ve la cuenta.
+
 ## Despliegue
 
 Cada `git push` a `main` se publica automáticamente en Vercel.
