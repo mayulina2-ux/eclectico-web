@@ -326,9 +326,7 @@ footer b{color:var(--gold-l);letter-spacing:.25em;font-family:"Cormorant Garamon
   <div class="card">
     <div>
       <h3>¿Lo quieres ver todavía más real?</h3>
-      <p>El montaje te da la idea de tamaño y combinación. Pulsa el botón y la IA lo convierte en una foto realista, con sombras y luz integradas. Tarda unos 20–40 segundos.</p>
-      <p><button class="btn gold" id="btnReal">✨ Convertir en foto realista</button></p>
-      <p class="note" style="color:#cfc6b2">¿Prefieres hacerlo tú en Gemini o ChatGPT?</p>
+      <p>El montaje te da la idea de tamaño y combinación. Para un acabado fotográfico, con sombras y luz integradas, pásalo por un generador de imágenes con IA:</p>
       <ol>
         <li>Pulsa <b>Guardar imagen</b> para descargar tu montaje.</li>
         <li>Ábrelo en <a href="https://gemini.google.com" target="_blank" rel="noopener">Gemini</a> o en ChatGPT.</li>
@@ -1244,25 +1242,6 @@ Responde SOLO con JSON válido: {"estilo":"...","recomendadas":[{"id":"...","mot
       ${recs.map(({q,p})=>`<div class="rec"><img src="${thumbOf(p)}" alt=""><div class="t"><b>${esc(p.nombre)} · ${fmt(p.precio)}</b>${esc(q.motivo||'')}</div><button class="btn sm" data-add="${p.id}">Añadir</button></div>`).join('')}
       ${r.consejo?`<div class="quote" style="margin-top:12px">${esc(r.consejo)}</div>`:''}`);
   }catch(e){ handleAIErr(e); }
-  busy(btn,false);
-});
-// Foto realista (solo en la web publicada: usa /api/realista con Gemini)
-$('#btnReal').dataset.l=$('#btnReal').innerHTML;
-$('#btnReal').addEventListener('click',async()=>{
-  if(!room){ toast('Primero sube una foto de tu estancia'); return; }
-  if(!layers.length){ toast('Añade alguna pieza del catálogo'); return; }
-  if(window.claude && window.claude.use){ toast('Esta función está en la web de Ecléctico; aquí usa los pasos de abajo'); return; }
-  const btn=$('#btnReal'); busy(btn,true,'Creando tu foto realista…');
-  try{
-    draw(false);
-    const k=Math.min(1,1280/Math.max(cv.width,cv.height)), c=document.createElement('canvas');
-    c.width=Math.round(cv.width*k); c.height=Math.round(cv.height*k); c.getContext('2d').drawImage(cv,0,0,c.width,c.height);
-    draw(true);
-    const r=await fetch('/api/realista',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({imagen:c.toDataURL('image/jpeg',0.88), prompt:$('#promptText').textContent})});
-    const j=await r.json().catch(()=>({}));
-    if(!r.ok||!j.imagen) throw Object.assign(new Error(j.error||'error'),{code:r.status===429?'rate_limited':''});
-    showModal(j.imagen,'Tu estancia, en foto realista','eclectico-estancia-realista.png');
-  }catch(e){ draw(true); console.error(e); toast(e.code==='rate_limited'?'La foto realista no está disponible ahora mismo. Puedes hacerlo con los pasos de abajo.':'No se pudo crear la foto. Inténtalo de nuevo en un momento.'); }
   busy(btn,false);
 });
 $('#aiOut').addEventListener('click',e=>{ const b=e.target.closest('[data-add]'); if(b) addPiece(b.dataset.add); });

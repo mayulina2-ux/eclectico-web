@@ -6,7 +6,6 @@ try { process.loadEnvFile(path.join(__dirname, '.env')); } catch (e) { /* sin .e
 const express = require('express');
 const { enviarSolicitud } = require('./lib/contacto');
 const { preguntarIA, iaDisponible } = require('./lib/ia');
-const { hacerRealista, estadoRealista } = require('./lib/realista');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -29,17 +28,6 @@ app.post('/api/ia', async (req, res) => {
   try {
     const r = await preguntarIA(req.body || {});
     res.status(r.status).json(r.ok ? { text: r.text } : { error: r.error });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Error inesperado' });
-  }
-});
-
-app.get('/api/realista', async (req, res) => res.json(await estadoRealista()));
-app.post('/api/realista', async (req, res) => {
-  try {
-    const r = await hacerRealista(req.body || {});
-    res.status(r.status).json(r.ok ? { imagen: r.imagen } : { error: r.error });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Error inesperado' });
